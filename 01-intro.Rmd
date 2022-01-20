@@ -32,4 +32,25 @@ files <- function(dataType){
   filter(str_detect(value, {{dataType}}))
 }
 ```
+## Check here now 
+Some more code doing something else
+
+```{r}
+#creating the main col names - factor# and dpecify g or ng
+rename_df <- function(d) {
+  #look for the col which has sum of NA's equal to the number of rows in the data frame - we want to remove this blank col - output is logical
+  col_miss_log <- apply(d, 2, function(x) sum(is.na(x)) == nrow(d))
+  #Give the col which has logical = T; this is the blank col
+  col_miss <- seq_along(d)[col_miss_log]
+  #Remove the first col, the blank col and the co next to blank col
+  d_subset <- d[ ,-c(1, col_miss, col_miss + 1)]
+  #create the main stem for g_
+  nms1 <- gsub("^(\\d?\\d).+", "g_\\1", names(d_subset)[seq(1, col_miss - 2)])
+  nms2 <- gsub("^(\\d?\\d).+", "ng_\\1", names(d_subset)[seq(col_miss - 1, length(names(d_subset)))])
+  names(d_subset) <- c(nms1, nms2)
+  d_subset
+}
+
+```
+
 
