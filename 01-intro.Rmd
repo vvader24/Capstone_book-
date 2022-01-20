@@ -19,3 +19,17 @@ knitr::kable(
 ```
 
 You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+
+
+Calling data
+```{r}
+# ----Functions - Data wrangling fro congruence coefficient
+
+#Call data = Ipsatized or Original data 
+files <- function(dataType){
+  dir_ls(here::here("data"))%>%
+  as_tibble() %>% 
+  filter(str_detect(value, {{dataType}}))
+}
+```
+
