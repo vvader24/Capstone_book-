@@ -36,7 +36,9 @@ jobs:
         run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
 
       - name: Deploy to Netlify
-        if: contains(env.isExtPR, 'false')
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         id: netlify-deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
