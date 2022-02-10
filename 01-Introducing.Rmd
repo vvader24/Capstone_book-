@@ -1,3 +1,7 @@
+```{r include=FALSE}
+source("common.R") 
+```
+
 # Introduction {#intro}
 
 You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
@@ -21,7 +25,6 @@ knitr::kable(
 You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
 
 
-
 # Introduction {#intro}
 This chapter introduces the dataset that we will be using and cleaning the data for the next chapters in this books. 
 
@@ -36,20 +39,13 @@ library(reactable)
 
 Let's first load the data 
 ```{r}
-load("~/Desktop/bookdown-demo-main/data/WV6_Data_R_v20201117.rdata")
 data_raw <- WV6_Data_R_v20201117
 ```
 
-```{r eval=FALSE}
-#code used for looking at the data
-dplyr::glimpse(data_raw)
-
-#View(data_raw)
-```
-
+There are `r (ncol(data_raw))` columns in the data. We will be retaining variables which consist of self-report data scaling from 1 to 5 or 1 to 7. 
 
 ## Functions
-This chunk will involve building functions for executing several tasks and operations. I will provide explanation about each function in the comments. 
+Some functions involving outputting data and workflow operations being used in the global environment will be introduced here. I will provide explanation about each function in the comments. 
 ```{r}
 #Function 1
   #Call and pring the value for a specific country 
@@ -70,8 +66,10 @@ length_CnR <- function(data){
 }
 ```
 
-
-Three countries considered to be least similar on aspects such as language, social structures and values will be retained. Let's look at the sampel sizes for each country. 
+## Data 
+\n
+We will retain data for three countries for this analysis. 
+Three countries considered to be least similar on aspects such as language, social structures and values will be retained. Let's look at the sample sizes for each country. 
 
 ```{r}
 data_raw %>% 
@@ -98,9 +96,9 @@ data_raw %>%
 ```
 
 \n
-Three countries for this analysis include - The United States of America (USA) ( _n_ = `r printnum(cntry_n("USA")$n)`), India (IND) ( _n_ = `r printnum(cntry_n("IND")$n)`) and Nigeria (NIG) ( _n_ = `r printnum(cntry_n("NIG")$n)`)
+Three countries for this analysis include - The United States of America (USA) ( _n_ = `r (cntry_n("USA")$n)`), India (IND) ( _n_ = `r (cntry_n("IND")$n)`) and Nigeria (NIG) ( _n_ = `r (cntry_n("NIG")$n)`)
 \n
-Let's take a closer look at the data in these countries. 
+We will retain data for these three countries with some data cleaning. We will remove data of those participants who have 20% or more missing values. 
 ```{r}
  data = data_raw %>% 
    filter(C_COW_ALPHA %in% c("USA","IND","NIG")) %>% 
@@ -113,51 +111,17 @@ Let's take a closer look at the data in these countries.
   #impute the missing values with 
   mutate_all(~ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) %>% 
   remove_rownames()
-
-
-# data %>% 
-#   count(C_COW_ALPHA)
-# length_CnR(data)   
-# table(is.na(data))
-# names(data)
-# names(data_raw)
-
-#View(data)
-
- 
 ```
 
-
-
+Here is a the same data transposed, where rows are variables and columns are participants. 
 ```{r}
 #Transpose data 
 data_t <- data %>% 
   mutate(ind = paste0("p", 1:nrow(data))) %>% 
-   dplyr::select(ind, everything(), -C_COW_ALPHA) %>% 
-  t %>% as.data.frame() %>% janitor::row_to_names(1) %>% 
+   dplyr::select(ind, everything(), -country) %>% 
+  t %>% as.data.frame %>% janitor::row_to_names(1) %>% 
   mutate_all(funs(as.numeric(as.character(.))))
-
-colnames(data_t)  
-  
-colnames(data)
-rownames(data)
-View(data)
-length_CnR(data)
 ```
 
-# Cluster analysis 
 
-## Data preparation 
-
-```{r}
-library(cluster)    # clustering algorithms
-library(factoextra) # clustering algorithms & visualization
- data <- data[,-caret::nearZeroVar(data)] #remove columns with near zero variance
- data <- data %>% select(-country) %>% scale
-```
-
-## K-means Clustering 
-This type of Clustering involves minimizing the within cluster variation. Hartigan and Wong(1979) provided the following algorithm for K-means Clustering 
-
-$$W(C_k) =  \sum_{x_1 \in C_k}(x_i-μ_k)^2$$
 
