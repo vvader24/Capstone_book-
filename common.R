@@ -1,20 +1,8 @@
-
 # Import data -------------------------------------------------------------
-
-library(osfr)
-osf_auth("pJq7p3qcpFA2noR8Sp7dDOUG3w1MmEyDpzsHGljrhBMoMuHASVLhwpLTWUDOJlw5zTeqk5")
-
-# Create a temporary directory
-tmp_dir <- tempdir()
-
-osf_retrieve_file("https://osf.io/ybwrc/") %>%
-  osf_download(
-    path = tmp_dir)
-file <- list.files(tmp_dir, pattern = "\\.rdata", full.names = TRUE)
-# read in the file
-load(file)
-#WVS_data <- WV6_Data_R_v20201117
-
+library(arrow)
+# load("~/Desktop/bookdown-demo-main/data/WV6_Data_R_v20201117.rdata")
+# write_parquet(WV6_Data_R_v20201117, here::here("data", "WVS6"))
+data_parquet <- read_parquet(here::here("data", "WVS6"))
 
 # Global options ----------------------------------------------------------
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
@@ -24,7 +12,7 @@ library(tidyverse)
 library(reactable)
 
 # Data - non transpose  ---------------------------------------------------
-data_raw <- WV6_Data_R_v20201117
+data_raw <- data_parquet
 
 data = data_raw %>%
   filter(C_COW_ALPHA %in% c("USA","IND","NIG")) %>%
