@@ -13,9 +13,7 @@ library(tidyverse)
 library(reactable)
 
 # Data - non transpose  ---------------------------------------------------
-data_raw <- data_parquet
-
-data = data_raw %>%
+data = data_parquet %>%
   filter(C_COW_ALPHA %in% c("USA","IND","NIG")) %>%
   rename("country" = C_COW_ALPHA) %>%
   dplyr::select(country, V4:V9, V12:V22, V45:V56, V70:V79, V95:V146, -V144, V153:V160J, V192:V216, V228A:V228K) %>%

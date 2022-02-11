@@ -30,7 +30,7 @@ One of the important questions across dimension reduction techniques involves ho
 - **Method WSS**: The within cluster dispersion of data, also know as the _error measure_, is likely to drop more prominently after some clustering value. This creates a "elbow" like visual on the plot which is utilized to indicate the optimal number of clusters to model the data. 
 
 ```{r}
- fviz_nbclust(data, kmeans, method = "wss", k.max = 50, nboot = 200) + theme_minimal() + ggtitle("Method: WSS [Elbow method] ")+ geom_vline(xintercept = 5, linetype = 2)
+fviz_nbclust(data, kmeans, method = "wss", k.max = 50, nboot = 200) + theme_minimal() + ggtitle("Method: WSS [Elbow method] ")+ geom_vline(xintercept = 5, linetype = 2)
 
 ```
 
@@ -50,7 +50,6 @@ knitr::include_graphics(rep("images/gap_stat.png"))
 
 - **Sum of square **: This method relies on minimizing the within cluster variance and increasing between cluster variance. 
 ```{r}
-
 pull_vals <-  function(n_center){
   
   n_center <- {{n_center}}
@@ -98,7 +97,6 @@ The  `NbClust` package in R contains up to 30 indices (for example, Hartigan (19
 ```{r eval=FALSE}
 library(NbClust)
 res.nbclust <- NbClust(data, distance = "euclidean", min.nc = 2, max.nc = 9, method = "complete", index ="all")
-
 
 res.nbclust_15 <- NbClust(data, distance = "euclidean", min.nc = 2, max.nc = 15,method = "complete", index ="all")
 

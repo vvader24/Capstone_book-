@@ -2,7 +2,7 @@
 
 We describe our methods in this chapter.
 
-Math can be added in body using usual syntax like this 
+Math can be added in body using usual syntax like this
 
 ## math example
 
@@ -22,5 +22,25 @@ We will approximate standard error to 0.027[^longnote]
     SE = \sqrt(\frac{p(1-p)}{n}) \approx \sqrt{\frac{1/3 (1 - 1/3)} {300}} = 0.027
     $$
 
+```{r include=FALSE}
+source("common.R") 
+```
 
-# 
+# Community detection
+```{r}
+# Libraries --------------------------------------------------------------
+library(igraph)
+
+
+# Data Preparation -------------------------------------------------------
+data <- data[,-caret::nearZeroVar(data)] #remove columns with near zero variance
+data %>% 
+  group_by(country) %>% 
+  sample_n(100) %>% 
+  ungroup %>% 
+  dplyr::select(-country) %>% 
+  cor
+
+
+```
+
