@@ -1,4 +1,5 @@
 # Import data -------------------------------------------------------------
+#install.packages("arrow")
 library(arrow)
 # load("~/Desktop/bookdown-demo-main/data/WV6_Data_R_v20201117.rdata")
 # write_parquet(WV6_Data_R_v20201117, here::here("data", "WVS6"))
