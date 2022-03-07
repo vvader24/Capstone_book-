@@ -24,7 +24,7 @@ jobs:
           use-public-rspm: true
       
       - name: Change download pkg method
-        run: Rscript -e 'options(renv.download.override = utils::download.file); install.packages("arrow")'
+        run: Rscript -e 'options(renv.download.override = utils::download.file); install.packages("arrow", repos = "https://arrow-r-nightly.s3.amazonaws.com")'
 
       - uses: r-lib/actions/setup-renv@v2
 
