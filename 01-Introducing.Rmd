@@ -37,10 +37,6 @@ library(tidyverse)
 library(reactable)
 ```
 
-Let's first load the data 
-```{r}
-data_raw <- WV6_Data_R_v20201117
-```
 
 There are `r (ncol(data_raw))` columns in the data. We will be retaining variables which consist of self-report data scaling from 1 to 5 or 1 to 7. 
 
