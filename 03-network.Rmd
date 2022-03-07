@@ -1,0 +1,280 @@
+```{r include=FALSE}
+source("common.R") 
+```
+
+
+# Network Analysis {#network} 
+One way of conceptualizing meaningful cultural groupings could involve using the idea of networks consisting of nodes and edges. A common way of representing graphs in social network analysis involves representing nodes as people where th edges indicate some mathematical relation between  the nodes. As a thought experiment one could think of these edges as psychological distances between people. The valence (positive or negative) of these edges could indicate similarity (or dissimilarity) in the thought processes of people. The weights of these edges (indicated by the thickness of the edges in the graph) could indicate the magnitude or strength of the similarity (or dissimilarity) in the thought processes of people. Once we are able to conceptualize the edges as thinking patterns, we need a way to find meaningful clusters or communities in the graph that will indicate groups that are similar to each other in their ways of thinking. Identification of such groups will involve algorithms that seek to find commonalities in the nodes and group them according to other similar nodes. This process in network analysis can be defined as community detection. 
+
+## Community detection
+The conceptual understanding of communities in the real world involves a level of consensus or agreement between members of the same community. For the purpose of demonstration we will be modeling psychological distances as personality variables and as Emancipative values. 
+\n
+The community detection algorithms allow for mathematically modeling this idea of identifying clusters or communities in a network of participants which could be potential proxies of culture relevant groups in the data. 
+
+```{r}
+#Libraries
+library(igraph)
+library(psych)
+```
+
+
+### Personality data 
+
+```{r warning=FALSE}
+set.seed(229)
+#222 gave a sd = 0
+
+#Raw data 
+data_bfi <- bfi %>% 
+  select(-gender, -education, -age) %>% 
+  drop_na() %>% 
+  sample_n(200) %>% 
+  # rowwise() %>% 
+  # mutate(A = sum(c(A1, A2, A3, A4,A5)),
+  #        C = sum(c(C1, C2, C3, C4,C5)),
+  #        N = sum(c(N1, N2, N3, N4, N5)),
+  #        O = sum(c(O1, O2, O3, O4, O5)),
+  #        E = sum(c(E1, E2, E3, E4, E5))) %>% 
+  # dplyr::select(A, C, N, O, E) %>% 
+  t %>% 
+  as.data.frame() %>% 
+  janitor::clean_names() %>% 
+  rename_all(funs(stringr::str_replace_all(., 'v', 'p'))) %>%
+  cor
+
+#Ipsatized data
+data_bfi_ip <- bfi %>% 
+  select(-gender, -education, -age) %>% 
+  drop_na() %>% 
+  multicon::ipsatize() %>% 
+  sample_n(200) %>% 
+  t %>% 
+  as.data.frame() %>% 
+  janitor::clean_names() %>% 
+  rename_all(funs(stringr::str_replace_all(., 'v', 'p'))) %>%
+  cor
+```
+
+```{r}
+#Plot the correlations - raw
+reshape2::melt(data_bfi) %>% 
+  ggplot(aes(x=value)) +
+     geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
+  labs(title = "Distribution of correlations - Raw data",
+       x = "Range of correlation values")+
+    theme_ipsum() +
+    theme(plot.title = element_text(size=9))
+```
+
+
+```{r}
+#Plot the correlations - ipsatized
+reshape2::melt(data_bfi_ip) %>% 
+  ggplot(aes(x=value)) +
+     geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
+  labs(title = "Distribution of correlations - Ipsatized data",
+       x = "Range of correlation values")+
+    theme_ipsum() +
+    theme(plot.title = element_text(size=9))
+
+```
+
+
+
+# What is Community detection?
+
+Community detection is the process of identifying similar nodes in a network. In order to find these similar nodes or communities we will be employing different algorithms based on Exploratory Graph analysis (EGA). EGA is a network psychometrics framework that intends to find clusters or communities within network models. The first step is to apply the graphical least absolute shrinkage and selector operator (GLASSO) to an inverse covariance matrix. This results in a Gaussian graphical model (or a network) wherein the edges are partial correlations and the nodes are targets. These targets are variables/features when applied to _latent variable modeling_. These targets would be, in our case, people. The networks would thus involve understanding the communities of participants in the data holding all the other connections constant (since we use partial correlation graphs). 
+\n 
+After estimating this graph we can further apply community detection algorithms to find the right connections between participants. The underlying framework for every community detection (CD) algorithm is slightly different from each other. We will be exploring the CD algorithms in the `igraph` package in R. 
+\n 
+Before we move on the algorithms it is important to understand one concept that will potentially affect the generation of these communities. The concept of _modularity_(Newman, 2006) is crucial to understanding any CD algorthim. Modularity in effect is the degree to which communities in a network have larger number of connections within the community in contrast to lesser connections outside the community. 
+
+$$
+Q = 1/2w \Sigma_{ij}(w_{ij}- \frac{w_iw_j}{2w}) \delta(c_i,c_j)
+$$
+$$w_{ij}$$ = edge strength (e.g., correlation) between nodes $$i$$ and $$j$$
+$$w_i$$ and $$w_j$$ = node strength (e.g., correlation) for nodes $$i$$ and $$j$$
+$$w$$ = summation of all edge weights in the network
+$$c_i$$, $$c_j$$ = community that node $$i$$ and node $$j$$ belong to
+$$\delta$$ takes values 1 (when nodes $$i$$ and $$j$$ belong to the same community) and 0 (when nodes $$i$$ and $$j$$  belong to different communities)
+is 1 if the nodes belong to the same community (i.e., $$c_i = c_j$$ ) and 0 if otherwise.
+
+
+1. _Edge Betweenness_ 
+This algorithm is based on the measure of betweenness cetrality in network graphs. The edge betweenness scores are computed based on how many shortest paths pass through a given edge in the network. The edge betweenness CD algorithm relies on the fact that edges with high betweenness are likely to connect multiple groups as these will the only ways for different groups/communities in the network to stay connected. The edge with the highest betweenness value is removed, followed by recomputing of betweenness for the remaining edges. The new highest betweenness value is identified and removed followed by another round of recomputation. An optimal threshold is established using modularity.
+
+```{r eval = FALSE}
+# edge betweenness 
+set.seed(98)
+data_bfi_eb <- bfi %>% 
+  select(-gender, -education, -age) %>% 
+  drop_na() %>% 
+  sample_n(70) %>% 
+  t %>% 
+  as.data.frame() %>% 
+  janitor::clean_names() %>% 
+  rename_all(funs(stringr::str_replace_all(., 'v', 'p'))) %>% 
+  cor
+
+g <- graph.adjacency(data_bfi_eb , mode="upper", weighted=TRUE, diag=FALSE)
+e <- get.edgelist(g)
+df <- as.data.frame(cbind(e,E(g)$weight))
+df <-  graph_from_data_frame(df, directed = F)
+
+eb <- edge.betweenness.community(df)
+plot(eb, df)
+```
+
+```{r include = FALSE}
+load("~/Desktop/bookdown-demo-main/edge_betweenness_50.RData")
+```
+
+2. _Fast and Greedy_
+This algorithm begins with considering every node as one community and uses heirarchical clustering to build communities. Each node is placed in a community in a way that maximizes modularity. The communities are collapsed into different groups once the modularity threshold has been reached (i.e. no significant improvement in modularity is observed). Due to the high speed of this algorithm it is often a preferred approach for quick approximations of communities in the data. 
+
+```{r}
+g <- graph.adjacency(data_bfi, mode="upper", weighted=TRUE, diag=FALSE)
+e <- get.edgelist(g)
+df <- as.data.frame(cbind(e,E(g)$weight))
+df <-  graph_from_data_frame(df, directed = F)
+```
+
+
+```{r}
+#Fast and greedy algorithm 
+fg <- fastgreedy.community(df); fg
+# membership(fg)
+# communities(fg)
+```
+
+
+3. _Louvian_
+This is similar to the greedy algorithm described above. This algorithm also uses heirarchical clustering. It intends to identify heirarchical structures wherein it swaps nodes between communities to assess improvement in modularity. Once the modularity reaches a point where no improvement is observes, the communities are modeled as latent nodes and edge weights with other nodes within and outside the community are computed. This provides a heirarchical or a multi-level structure to the communities identified. The results of Lovian and Fast Greedy algorithms are therefore, likely to be similar. 
+
+```{r}
+# Louvain
+lc <- cluster_louvain(df);lc
+# membership(lc)
+# communities(lc)
+# plot(lc, g)
+```
+
+
+4. _Walktrap_
+This algorithm starts with computing a transition matrix $$\mathbf{T_{ij}}$$ in which each matrix element $$p_{ij}$$ is the probability of one node $$i$$ traversing to another node $$j$$. 
+
+$$\mathbf{T_{ij}} = \left[\begin{array}
+{rrr}
+p_{11} & p_{12} & p_{13} \\
+p_{21} & p_{22} & p_{23}  \\
+p_{31} & p_{32} & p_{33} 
+\end{array}\right]$$
+
+
+In the matrix above, $$p_{32}$$ is th probability that node 3 traverses to node 2 as determined by the node strengths of the two nodes. 
+\n
+Ward's agglomorative clustering approach is employed wherein nodes start off as a cluster of their own and then merge with adjacent clusters. The merging takes place in a way where the sum of squared distances between clusters are reduced. 
+
+
+```{r}
+#Random Walk 
+wk <- walktrap.community(df); wk
+# membership(wk)
+# communities(wk)
+```
+
+
+5. _Infomap_
+This is similar to the greedy walk algorithm except it converts the random walk information into a binary coding system. The partition of data into networks is carried out in a way that maximizes the information of random walks. 
+```{r}
+# Infomap
+imc <- cluster_infomap(df);imc
+# membership(imc)
+#communities(imc)
+# plot(fg, g)
+```
+
+6. _Eigen vector_
+This involves computing an eigenvector for the modularity matrix and splitting the network into communities in order to improve modularity. A stopping condition is specified to avoid tight communities to be formed. Due to eigenvector computations, this algorithm does not work well with degerate graphs.
+```{r}
+# Eigen vector community
+eg <- leading.eigenvector.community(df);eg 
+```
+
+
+## Values data 
+```{r}
+set.seed(133)
+val_data <- data_val %>%
+    group_by(country) %>% 
+    sample_n(50) %>% 
+    ungroup %>% dplyr::select(-country) %>%
+    t %>% cor
+
+#Plot the correlations 
+reshape2::melt(val_data) %>% 
+  ggplot(aes(x=value)) +
+     geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
+    labs(title = "Distribution of correlations - Values Raw data",
+       x = "Range of correlation values")+
+    theme_ipsum() +
+    theme(plot.title = element_text(size=9))
+
+g <- graph.adjacency(val_data, mode="upper", weighted=TRUE, diag=FALSE)
+e <- get.edgelist(g)
+df <- as.data.frame(cbind(e,E(g)$weight))
+df <-  graph_from_data_frame(df, directed = F)
+```
+
+```{r}
+# edge betweenness 
+#eb <- edge.betweenness.community(df);eb
+#plot(eb, df)
+
+# Louvain
+lc <- cluster_louvain(df);lc
+# membership(lc)
+# communities(lc)
+# plot(lc, g)
+
+# Infomap
+imc <- cluster_infomap(df);imc
+# membership(imc)
+# communities(imc)
+# plot(imc, g)
+
+#Fast and greedy algorithm 
+fg <- fastgreedy.community(df); fg
+# membership(fg)
+# communities(fg)
+
+# Eigen vector community
+eg <- leading.eigenvector.community(df);eg 
+# communities(eg)
+
+#Random Walk 
+wk <- walktrap.community(df); wk
+# membership(wk)
+# communities(wk)
+```
+
+
+
+
+
+
+```{r eval=FALSE, include=FALSE}
+# look at athe range of every column 
+t(sapply(data, range))
+heatmap(a)
+
+#ipsatized version of data - explore this in the future 
+a_ip = data %>% 
+  group_by(country) %>% 
+  sample_n(70) %>% 
+  ungroup %>% 
+  dplyr::select(-country) %>% 
+    multicon::ipsatize() %>% 
+  t %>% 
+  cor
+```

@@ -1,0 +1,212 @@
+```{r include=FALSE}
+source("common.R") 
+```
+# Introduction {#intro}
+
+## Theoretical Background
+Most cross-cultural studies in psychology have a common theme consisting of the difference in levels of a sample statistics based on a sample characteristic feature. This feature is mostly the geographical location where the sample data has been collected. This geographical location is treated as an analogy to the cultural identity of an individual. Let's try understanding this another way. Do the following statements convey the same meaning?
+
+- "Self esteem in _collectivistic cultures_ was found to be significantly lower than those in _individualistic cultures_"
+
+- "Self esteem in _Chinese and Indian participants_ was found to be significantly lower than those _American and Canadian participants_". 
+
+Although the concepts of collectivism and individualism have become synonymous with how we understand cultural differences it is problematic to equate the demographic variable of location of data collection to the psychological makeup of participants. 
+
+Another way of approaching this issue is by taking a closer look at the definition of culture. A common definition involves a shared history, language or ways of thinking which mark the characteristic way of living for people. Although one could point at the the likelihood of developing this phenomena in a population if people share a close proximity, one should also consider the growing spread of and access to information from far off lands and countries which influence our everyday life. The increased consumption of online content in forms of movies, series or any form of media is instrumental in building mindsets which could potentially indicate differences despite the similarity in demographic aspects of the people. Moreover we live in an age where it is likely that people experience acculturation without having to travel as against our ancestors who traveled miles to even hear people speaking a different language. 
+\n
+One of the most important criticisms against using countries or ethnicities as synonymous to culture is the within group variance that often exceeds the between group variance in such data sets [@baskerville2003hofstede]. This not only speaks to the underlying heterogeneity in the population's psychological composition but also indicates that there is a need to question the assumption of homogeneity beyond the political boundaries of a nation. 
+\n
+This brings us to the question of what is then a good method to identify groups in a data set. Or rather what is a good data set to answer the question of how many similar-minded groups can be identified in a population. There are two possibilities for this question in my opinion. One, _Personality_ data set and two, _Values_ data set.  Let's unpack each of theses. 
+\n
+To begin with personality, it is essentially how people tend to describe themselves on variables that are representative of descriptions being used in their respective language. By definition, personality consists of enduring patters of thoughts, emotions, behaviors and motivations in a population. This is therefore an appropriate place to begin with in understanding culture. Assuming that the scale is developed and standardized in the language familiar to the population ( _emic_ approach), it can be argued that the data is rich in reflecting thinking patterns of the people in the sample. The Distributive Model of Culture [rodseth1998distributive] specifies that we all carry varying degrees of cultural information with us in the society. The descriptive nature of personality and its close relation to culture makes it a potential candidate for unearthing the culture-relevant groups in the data. The current workflow will use the IPIP 25-item data set for understanding high dimensionality structure of culture relevant groups. 
+\n
+Values on the other hand hold patterns of thinking and guiding principles that people tend to report through their understanding of societal sanctions. These social sanctions are developed in the context of ideas ranging from freedom, feminism, nationalism, education, patriarchy, harm,n money,  etc. Values therefore become a foreground for tapping into cultural mindsets of individuals. The present workflow will also use a Values data set to demonstrate how meaningful groups can be identified. The main reason for working with the Values data set for this study is the need for a large data set in order to carry out simulations that we will talk more about. The World Values Survey is a body of work that has been collecting data on Values from several geographical locations across the globe. It's sophisticated compendium of codebooks and organization of the collected data lends itself as a good starting ground for a study such as this one. Let's take a closer look at this data set. 
+
+## Personality Dataset 
+Self report personality measures could serve as projections of similar mindsets and cultural similarities between participants in the study. For the purpose of demonstration we will use the `bfi` data from the `psych` package. This data is based on the 25-item IPIP scale by Goldberg (1999), collected in the Spring of 2010. It consists of over 2800 data points. It measures the five dimensions of personality, namely - Conscientiousness, Extraversion, Neuroticism, Agreeableness and Openness to experience. We will also be asssessing two types of the original data. One, the original raw data and two, the ipsatized version of the data - this will involve mean centering the data for every participant. 
+
+## Values Dataset 
+The World Values Survey (WVS) is being collected since 1981 as an effort towards enabling policy makers, governments, researchers and organizations to make sound decisions about developing and forming a better society. 
+For the purpose of the present study, we will be using the _Wave 6_ of the [World Values Survey](https://www.worldvaluessurvey.org/WVSDocumentationWV6.jsp). The data for this survey was collected between 2010 and 2014. 
+\n 
+
+## Analysis 
+The overall intention of this work is to build ideas towards quantifying culture and building similar minded groups in a given data. In more statistical terms we can call this the **Dimensionality reduction problem**. The overall premise of this statistical method lies in reorganizing the data in a manner that helps us to understand the best possible value of the number of dimensions that can be used to represent the data. 
+\n
+This helps to bring a mathematical structure to the analysis of the data for the given project. We are essentially trying to understand how many dimensions ( _k<p_ ) can be used to represent the data at hand. Several methods have been developed in the past to address the dimensionality problem. 
+
+1. *Cluster analysis *
+2. *Principal Component Analysis*
+3. *Network Analysis* 
+
+There are other dimensionality algorithms that could be seen as potentially important models in handling the dimensioanlity problem. Following are some of these examples and my reflections about these methods. 
+
+ - *t-distributed stochastic neighbor embedding (t-SNE)*
+ 
+ \n
+    This algorithm uses a hyperparamater called "perplexity" that needs to be specified in order to carrying out dimensionality reduction. In essence perplexity is equivalent to specifying the number of _k_ in k-means clustering. There is currently no method (that I know of) that can identify the optimal number of dimensions to be retained. 
+   
+ - *Uniform manifold approximation and projection (UMAP)* 
+ 
+ \n
+     UMAP certainly has an advantage over t-SNE with its ability to preserve both local and global structure of the data. It also has computational advantages over t-SNE. Yet again there is no way of determining what an optimal number of dimensions is. One potential option could be using cross validations but this requires further explorations in terms of `n_neighbor` specifications. 
+   
+   
+ - *Autoencoders*
+ 
+ \n
+ 
+   Autoencoder, a relatively novel technique used for dimensionality reduction, is trained over number of iterations with the use of gradient descent, and it aims at minimising the mean squared error. The neural network basis to this algorithm lays the key emphasis on the “bottleneck” hidden layer where the input layer information is further compressed. However, there are no guidelines to choose the size of this bottleneck layer. 
+ 
+ - *Potential of heat-diffusion for affinity-based trajectory embedding (PHATE)*
+ 
+ \n
+
+   PHATE can also capture both the global and the local structure of the data. This algorithm lends itself to visualizing 2 or 3 dimensional data. Hence the appropriateness of this algorithm for high dimensional structures is questionable. 
+
+We will explore Cluster analysis \@ref(cluster) , Principal Component analysis \@ref(pca) and Network analysis \@ref(network) in the following chapters. 
+
+## Data orientation
+We will be using the following libraries for data cleaning and data visualization. 
+
+```{r}
+library(tidyverse)
+library(reactable)
+```
+
+- Functions
+Functions for outputting data and workflow operations used in the global environment will be introduced in this sub section across chapters. This is to keep the reader informed about the codes and results in the data and a broader effort towards the reproducibility. Each function will have comments which will be indicative of tasks the function is doing. 
+```{r}
+#Function 1
+  #Call and pring the value for a specific country 
+
+ cntry_n <- function(country_code) {
+   data_raw %>% 
+     count(C_COW_ALPHA) %>% 
+     filter(C_COW_ALPHA == {{country_code}}) 
+ }
+
+#Function 2 
+  #ncol and nrow at the same time
+
+length_CnR <- function(data){  
+  n_col <- ncol(data)
+  n_row <- nrow(data)
+  return(tibble(n_col, n_row))
+}
+```
+
+
+### Values 
+There are `r (ncol(data))` columns in the data. We will be retaining variables which consist of self-report data scaling from 1 to 5 or 1 to 7. 
+\n
+We will retain data for three countries for this analysis. 
+Three countries considered to be least similar on aspects such as language, social structures and values will be retained. Let's look at the sample sizes for each country. 
+
+```{r out.width='80%', fig.asp=.75, fig.align='center'}
+data_raw %>% 
+  count(C_COW_ALPHA) %>% 
+  arrange(desc(n)) %>% 
+  
+  reactable(
+    defaultColDef = colDef(
+    cell = function(value) format(value, nsmall = 1),
+    align = "center",
+    minWidth = 70,
+    headerStyle = list(background = "#f7f7f8")
+    ),
+  
+    
+    columns = list(
+    C_COW_ALPHA = colDef(name = "Country Code"),
+    n = colDef(name = "Sample size (n)")
+    ),
+    
+  bordered = TRUE,
+  highlight = TRUE
+  )
+```
+
+\n
+Three countries for this analysis include - The United States of America (USA) ( _n_ = `r (cntry_n("USA")$n)`), India (IND) ( _n_ = `r (cntry_n("IND")$n)`) and Nigeria (NIG) ( _n_ = `r (cntry_n("NIG")$n)`)
+\n
+We will retain data for these three countries with some data cleaning. We will remove data of those participants who have 20% or more missing values. 
+```{r}
+data_val <- data_raw %>%
+  filter(C_COW_ALPHA %in% c("USA","IND","NIG")) %>%
+  rename("country" = C_COW_ALPHA) %>%
+  dplyr::select(country, V4:V9, V12:V22, V45:V56, V70:V79, V95:V146, -V144, V153:V160J, V192:V216, V228A:V228K) %>%
+  #remove cols which have all NA's
+  janitor::remove_empty(which = "cols") %>%
+  #remove cols which have 20% or more missing data (NA)
+  purrr::discard(~sum(is.na(.x))/length(.x)* 100 >=20) %>%
+  #impute the missing values with
+  mutate_all(~ifelse(is.na(.x), mean(.x, na.rm = TRUE), .x)) %>%
+  remove_rownames()
+```
+
+Here is a the same data transposed, where rows are variables and columns are participants. 
+```{r warning=FALSE}
+#Transpose data 
+data_val_t <- data %>% 
+  mutate(ind = paste0("p", 1:nrow(data))) %>% 
+   dplyr::select(ind, everything(), -country) %>%
+  t %>% as.data.frame %>% janitor::row_to_names(1) %>% 
+  mutate_all(funs(as.numeric(as.character(.))))
+```
+
+### Personality
+
+Let's take a look at the personality data set from the `psych` package. This data consists of a sample size of `r nrow(bfi)`. To the extent of my knowledge this data was collected in the US but the details need to be looked into.  
+\n
+
+ *  A1:A5 - items measuring _Agreeableness_
+ *  C1:C5 - items measuring _Conscientiousness_
+ *  E1:E5 - items measuring _Extraversion_
+ *  N1:N5 - items measuring _Neuroticism_
+ * O1:O5 - items measuring _Openness to experience_
+
+```{r}
+library(psych)
+
+data_pty <- bfi %>%
+   dplyr::select(A1:O5)
+
+data_pty %>% 
+  reactable(
+    defaultColDef = colDef(
+    cell = function(value) format(value, nsmall = 1),
+    align = "center",
+    minWidth = 70,
+    headerStyle = list(background = "#f7f7f8")
+    ),
+
+  bordered = TRUE,
+  highlight = TRUE
+  )
+```
+
+
+```{r}
+ data_pty_t <- bfi %>%
+   dplyr::select(A1:O5) %>% 
+   t %>% data.frame %>% janitor::clean_names()  
+  
+data_pty_t %>% 
+  reactable(
+        defaultColDef = colDef(
+    cell = function(value) format(value, nsmall = 1),
+    align = "center",
+    minWidth = 70,
+    headerStyle = list(background = "#f7f7f8")
+    ),
+
+  bordered = TRUE,
+  highlight = TRUE
+  ) 
+```
+
+### Note on Data transformation
+The future versions of this study will explore the ipsatized version of the data. Ipsatization refers to the process of mean centering the data for every participant. It involves replacing every data point ($x_i$) for a participant ($x$) with the mean deviation of the data point ($x_i - \bar{x}$). The `ipsatize` function from the `multicon` package can be used for this purpose. 
+
+
