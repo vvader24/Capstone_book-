@@ -24,9 +24,10 @@ library(psych)
 set.seed(229)
 #222 gave a sd = 0
 
+library(psych)
 #Raw data 
 data_bfi <- bfi %>% 
-  select(-gender, -education, -age) %>% 
+  dplyr::select(-gender, -education, -age) %>% 
   drop_na() %>% 
   sample_n(200) %>% 
   # rowwise() %>% 

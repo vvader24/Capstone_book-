@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | Psychological communities</title>
+  <title>Chapter 6 Personality data | Psychological communities</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.24.4 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | Psychological communities" />
+  <meta property="og:title" content="Chapter 6 Personality data | Psychological communities" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Psychological communities" />
+  <meta name="twitter:title" content="Chapter 6 Personality data | Psychological communities" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="personality-data-1.html"/>
-
+<link rel="prev" href="pca.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -208,17 +208,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="personality-data-1" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Personality data</h1>
+<p>One of the important things to recognize is that I need to remove rows that have zero variance. These participants have responded to the questionnaire with only one consistent option and this could cause issues with the correlation matrix estimation. This could also lead to issues is eigendecomposition of the matrix.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="personality-data-1.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">900</span>)</span>
+<span id="cb62-2"><a href="personality-data-1.html#cb62-2" aria-hidden="true" tabindex="-1"></a>PA_pty <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span> </span>
+<span id="cb62-3"><a href="personality-data-1.html#cb62-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>gender, <span class="sc">-</span>education, <span class="sc">-</span>age) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-4"><a href="personality-data-1.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb62-5"><a href="personality-data-1.html#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#slice(-drop_row) %&gt;% </span></span>
+<span id="cb62-6"><a href="personality-data-1.html#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">200</span>)  <span class="sc">%&gt;%</span>  </span>
+<span id="cb62-7"><a href="personality-data-1.html#cb62-7" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span>  </span>
+<span id="cb62-8"><a href="personality-data-1.html#cb62-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">cor</span>()</span>
+<span id="cb62-9"><a href="personality-data-1.html#cb62-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="personality-data-1.html#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="fu">PA_graph</span>(PA_pty)</span></code></pre></div>
+<pre><code>## 
+## Using eigendecomposition of correlation matrix.
+## Computing: 10%  20%  30%  40%  50%  60%  70%  80%  90%  100%</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<div id="bayesian-parallel-analysis" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Bayesian Parallel Analysis</h2>
+<p>This is a relatively new method to compute Parallel analysis. We will be using a code from a recent paper to carry out this analysis.</p>
+<div id="personality-data-2" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Personality data</h3>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="personality-data-1.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(matrixcalc)</span>
+<span id="cb64-2"><a href="personality-data-1.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Personality data </span></span>
+<span id="cb64-3"><a href="personality-data-1.html#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">18</span>)</span>
+<span id="cb64-4"><a href="personality-data-1.html#cb64-4" aria-hidden="true" tabindex="-1"></a>bfi <span class="sc">%&gt;%</span> </span>
+<span id="cb64-5"><a href="personality-data-1.html#cb64-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>gender,<span class="sc">-</span>education,<span class="sc">-</span>age) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-6"><a href="personality-data-1.html#cb64-6" aria-hidden="true" tabindex="-1"></a>  drop_na <span class="sc">%&gt;%</span> </span>
+<span id="cb64-7"><a href="personality-data-1.html#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-8"><a href="personality-data-1.html#cb64-8" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span> </span>
+<span id="cb64-9"><a href="personality-data-1.html#cb64-9" aria-hidden="true" tabindex="-1"></a>  cor <span class="sc">%&gt;%</span> </span>
+<span id="cb64-10"><a href="personality-data-1.html#cb64-10" aria-hidden="true" tabindex="-1"></a>   bayes.pa </span></code></pre></div>
+</div>
+<div id="values-data-1" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Values data</h3>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="personality-data-1.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">453</span>)</span>
+<span id="cb65-2"><a href="personality-data-1.html#cb65-2" aria-hidden="true" tabindex="-1"></a>samp <span class="ot">=</span> <span class="dv">45</span></span>
+<span id="cb65-3"><a href="personality-data-1.html#cb65-3" aria-hidden="true" tabindex="-1"></a>data_val <span class="sc">%&gt;%</span> </span>
+<span id="cb65-4"><a href="personality-data-1.html#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb65-5"><a href="personality-data-1.html#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(samp) <span class="sc">%&gt;%</span></span>
+<span id="cb65-6"><a href="personality-data-1.html#cb65-6" aria-hidden="true" tabindex="-1"></a>  ungroup <span class="sc">%&gt;%</span></span>
+<span id="cb65-7"><a href="personality-data-1.html#cb65-7" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>country, <span class="sc">-</span>V12, <span class="sc">-</span>V13, <span class="sc">-</span>V14, <span class="sc">-</span>V15, <span class="sc">-</span>V16, <span class="sc">-</span>V17, <span class="sc">-</span>V18, <span class="sc">-</span>V19, <span class="sc">-</span>V20, <span class="sc">-</span>V21, <span class="sc">-</span>V22) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-8"><a href="personality-data-1.html#cb65-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb65-9"><a href="personality-data-1.html#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">paste0</span>(<span class="st">&quot;p&quot;</span>, <span class="dv">1</span><span class="sc">:</span>(samp<span class="sc">*</span><span class="dv">3</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-10"><a href="personality-data-1.html#cb65-10" aria-hidden="true" tabindex="-1"></a> ungroup <span class="sc">%&gt;%</span> </span>
+<span id="cb65-11"><a href="personality-data-1.html#cb65-11" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span></span>
+<span id="cb65-12"><a href="personality-data-1.html#cb65-12" aria-hidden="true" tabindex="-1"></a>  data.frame <span class="sc">%&gt;%</span> </span>
+<span id="cb65-13"><a href="personality-data-1.html#cb65-13" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb65-14"><a href="personality-data-1.html#cb65-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(., as.integer) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-15"><a href="personality-data-1.html#cb65-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(.,jitter) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-16"><a href="personality-data-1.html#cb65-16" aria-hidden="true" tabindex="-1"></a>  drop_na <span class="sc">%&gt;%</span> </span>
+<span id="cb65-17"><a href="personality-data-1.html#cb65-17" aria-hidden="true" tabindex="-1"></a>  cor <span class="sc">%&gt;%</span> </span>
+<span id="cb65-18"><a href="personality-data-1.html#cb65-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#is.positive.definite()</span></span>
+<span id="cb65-19"><a href="personality-data-1.html#cb65-19" aria-hidden="true" tabindex="-1"></a>  bayes.pa </span></code></pre></div>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="personality-data-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="pca.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -249,7 +303,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-references.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-PCA.Rmd",
 "text": "Edit"
 },
 "history": {
