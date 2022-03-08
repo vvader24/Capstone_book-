@@ -24,7 +24,7 @@ jobs:
           use-public-rspm: true
       
       - name: Change download pkg method
-        run: Rscript -e 'options(renv.download.override = utils::download.file); install.packages("arrow", ARROW_DEPENDENCY_SOURCE=BUNDLED)'
+        run: Rscript -e 'Sys.setenv(ARROW_DEPENDENCY_SOURCE = BUNDLED); options(renv.download.override = utils::download.file); install.packages("arrow")'
 
       - uses: r-lib/actions/setup-renv@v2
 
