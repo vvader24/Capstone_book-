@@ -4,4 +4,11 @@ language:
     chapter_name: "Chapter "
 delete_merged_file: true
 output_dir: "docs"
-rmd_subdir: true
+rmd_files: [
+  "index.Rmd",
+  "01-intro.Rmd",
+  "02-cluster.Rmd",
+  "03-network.Rmd",
+  "04-PCA.Rmd",
+  "05-references.Rmd"
+  ]
