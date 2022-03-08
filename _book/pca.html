@@ -24,7 +24,7 @@
 <meta name="author" content="Yihui Xie" />
 
 
-<meta name="date" content="2022-03-02" />
+<meta name="date" content="2022-03-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,8 +161,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="network.html"><a href="network.html"><i class="fa fa-check"></i><b>4</b> Network Analysis</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="network.html"><a href="network.html#personality-data"><i class="fa fa-check"></i><b>4.1</b> Personality data</a></li>
-<li class="chapter" data-level="4.2" data-path="network.html"><a href="network.html#values-data"><i class="fa fa-check"></i><b>4.2</b> Values data</a></li>
+<li class="chapter" data-level="4.1" data-path="network.html"><a href="network.html#community-detection"><i class="fa fa-check"></i><b>4.1</b> Community detection</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="network.html"><a href="network.html#personality-data"><i class="fa fa-check"></i><b>4.1.1</b> Personality data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="network.html"><a href="network.html#what-is-community-detection"><i class="fa fa-check"></i><b>4.2</b> What is Community detection?</a></li>
+<li class="chapter" data-level="4.3" data-path="network.html"><a href="network.html#values-data"><i class="fa fa-check"></i><b>4.3</b> Values data</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>5</b> Principal Component analysis</a>
 <ul>
@@ -174,6 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="personality-data-1.html"><a href="personality-data-1.html#bayesian-parallel-analysis"><i class="fa fa-check"></i><b>6.1</b> Bayesian Parallel Analysis</a>
 <ul>
 <li class="chapter" data-level="6.1.1" data-path="personality-data-1.html"><a href="personality-data-1.html#personality-data-2"><i class="fa fa-check"></i><b>6.1.1</b> Personality data</a></li>
+<li class="chapter" data-level="6.1.2" data-path="personality-data-1.html"><a href="personality-data-1.html#values-data-1"><i class="fa fa-check"></i><b>6.1.2</b> Values data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -202,6 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>One of the most important algorithms used in dimensionality reduction is PCA. This method works very well with large datasets which makes it ideal for tasks such as this one.</p>
 <div id="data-preparation-1" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Data Preparation</h2>
+<p>We will be working with a sample size of 50 from the Values data. This will be utilized for demonstrating the code. The problem of positive definite matrices although has not been completely solved at this point, the demonstrations are quite helpful.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="pca.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">133</span>)</span>
 <span id="cb1-2"><a href="pca.html#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">50</span></span>
 <span id="cb1-3"><a href="pca.html#cb1-3" aria-hidden="true" tabindex="-1"></a>data_PA <span class="ot">&lt;-</span> data_val <span class="sc">%&gt;%</span></span>
@@ -210,17 +216,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="pca.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span> </span>
 <span id="cb1-7"><a href="pca.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  cor</span>
 <span id="cb1-8"><a href="pca.html#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="pca.html#cb1-9" aria-hidden="true" tabindex="-1"></a>l <span class="ot">=</span> data_PA <span class="sc">%&gt;%</span> </span>
-<span id="cb1-10"><a href="pca.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  reshape2<span class="sc">::</span><span class="fu">melt</span>(<span class="at">value.name =</span> <span class="st">&quot;cor&quot;</span>) </span>
-<span id="cb1-11"><a href="pca.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># %&gt;%  </span></span>
-<span id="cb1-12"><a href="pca.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   summary(min_cor = min(cor),</span></span>
-<span id="cb1-13"><a href="pca.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#           max_cor = max(cor))</span></span></code></pre></div>
+<span id="cb1-9"><a href="pca.html#cb1-9" aria-hidden="true" tabindex="-1"></a>data_PA <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="pca.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  reshape2<span class="sc">::</span><span class="fu">melt</span>(<span class="at">value.name =</span> <span class="st">&quot;cor&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-11"><a href="pca.html#cb1-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>cor)) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="pca.html#cb1-12" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_density</span>(<span class="at">fill=</span><span class="st">&quot;#69b3a2&quot;</span>, <span class="at">color=</span><span class="st">&quot;#e9ecef&quot;</span>, <span class="at">alpha=</span><span class="fl">0.8</span>)<span class="sc">+</span></span>
+<span id="cb1-13"><a href="pca.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of correlations - Values Raw data, n= 50&quot;</span>,</span>
+<span id="cb1-14"><a href="pca.html#cb1-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Range of correlation values&quot;</span>)<span class="sc">+</span></span>
+<span id="cb1-15"><a href="pca.html#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ipsum</span>() <span class="sc">+</span></span>
+<span id="cb1-16"><a href="pca.html#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="parallel-analysis-pa" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Parallel analysis (PA)</h2>
 <p>PA is considered to be one of the most trusted algorithms to determine the number of factors to be retained in a dataset. It has been proven to be more accurate than several other statistical methods such as the elbow method using the scree plot, Kaiser rule, or Velicer’s MAP test. Traditional PA compares eigenvalues (<span class="math inline">\(\lambda_1\)</span>…<span class="math inline">\(\lambda_k\)</span>) generated by the data at hand with averages of simulated eigenvalues (<span class="math inline">\(\bar{\lambda}_1\)</span>…<span class="math inline">\(\bar{\lambda}_k\)</span>). Correlation matrices consisting of the same dimensions are randomly generated a specific number of times and averages of all eigenvalues simulated are retained. The mean simulated eigenvalues are compared with the eigenvalues obtained in the data. When the <span class="math inline">\(\lambda_k\)</span> &gt; <span class="math inline">\(\bar{\lambda}_k\)</span>, you retain the eigenvalue. The number of eigenvalues retained is considered as the most optimum number for identifying the dimensionality of the data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="pca.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(paran)</span>
-<span id="cb2-2"><a href="pca.html#cb2-2" aria-hidden="true" tabindex="-1"></a>PA_allData <span class="ot">&lt;-</span> <span class="fu">paran</span>(data_PA, <span class="at">iterations =</span> <span class="dv">1000</span>, <span class="at">centile =</span> <span class="dv">0</span>, <span class="at">quietly =</span> <span class="cn">FALSE</span>, <span class="at">status =</span> <span class="cn">TRUE</span>, <span class="at">all =</span> <span class="cn">TRUE</span>, <span class="at">cfa =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="cn">TRUE</span>,<span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">legend =</span> <span class="cn">TRUE</span>, <span class="at">file =</span> <span class="st">&quot;&quot;</span>, <span class="at">width =</span> <span class="dv">640</span>, <span class="at">height =</span> <span class="dv">640</span>, <span class="at">grdevice =</span> <span class="st">&quot;png&quot;</span>, <span class="at">seed =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="pca.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function for building Parallel analysis plots</span></span>
+<span id="cb2-2"><a href="pca.html#cb2-2" aria-hidden="true" tabindex="-1"></a>PA_graph <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb2-3"><a href="pca.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="pca.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(paran)</span>
+<span id="cb2-5"><a href="pca.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(scales)</span>
+<span id="cb2-6"><a href="pca.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-7"><a href="pca.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  PA_allData <span class="ot">&lt;-</span> <span class="fu">paran</span>({{data}}, <span class="at">iterations =</span> <span class="dv">1000</span>, <span class="at">centile =</span> <span class="dv">0</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>, <span class="at">status =</span> <span class="cn">TRUE</span>, <span class="at">all =</span> <span class="cn">TRUE</span>, <span class="at">cfa =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-8"><a href="pca.html#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="pca.html#cb2-9" aria-hidden="true" tabindex="-1"></a>PA_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(PA_allData<span class="sc">$</span>AdjEv,</span>
+<span id="cb2-10"><a href="pca.html#cb2-10" aria-hidden="true" tabindex="-1"></a>                PA_allData<span class="sc">$</span>Ev,</span>
+<span id="cb2-11"><a href="pca.html#cb2-11" aria-hidden="true" tabindex="-1"></a>                PA_allData<span class="sc">$</span>RndEv,</span>
+<span id="cb2-12"><a href="pca.html#cb2-12" aria-hidden="true" tabindex="-1"></a>                PA_allData<span class="sc">$</span>Bias)</span>
+<span id="cb2-13"><a href="pca.html#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="pca.html#cb2-14" aria-hidden="true" tabindex="-1"></a>PA_df <span class="ot">&lt;-</span> PA_df <span class="sc">%&gt;%</span> </span>
+<span id="cb2-15"><a href="pca.html#cb2-15" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-16"><a href="pca.html#cb2-16" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-17"><a href="pca.html#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rowname=</span> <span class="fu">as.numeric</span>(rowname)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-18"><a href="pca.html#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;pc&quot;</span> <span class="ot">=</span> rowname, </span>
+<span id="cb2-19"><a href="pca.html#cb2-19" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;adj_ev&quot;</span> <span class="ot">=</span> pa_all_data_adj_ev,</span>
+<span id="cb2-20"><a href="pca.html#cb2-20" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;ev&quot;</span> <span class="ot">=</span> pa_all_data_ev, </span>
+<span id="cb2-21"><a href="pca.html#cb2-21" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;rnd_ev&quot;</span> <span class="ot">=</span> pa_all_data_rnd_ev,    </span>
+<span id="cb2-22"><a href="pca.html#cb2-22" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;bias&quot;</span> <span class="ot">=</span> pa_all_data_bias) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-23"><a href="pca.html#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(adj_ev, ev, bias)) </span>
+<span id="cb2-24"><a href="pca.html#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="pca.html#cb2-25" aria-hidden="true" tabindex="-1"></a>PA_df <span class="sc">%&gt;%</span> </span>
+<span id="cb2-26"><a href="pca.html#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pc, <span class="at">y =</span> value, <span class="at">color =</span> name))<span class="sc">+</span></span>
+<span id="cb2-27"><a href="pca.html#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>)<span class="sc">+</span></span>
+<span id="cb2-28"><a href="pca.html#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb2-29"><a href="pca.html#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name=</span><span class="st">&#39;Factor Number&#39;</span>, <span class="at">breaks=</span> <span class="fu">pretty_breaks</span>()) <span class="sc">+</span></span>
+<span id="cb2-30"><a href="pca.html#cb2-30" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_continuous</span>(<span class="at">name=</span><span class="st">&#39;Eigenvalue&#39;</span>, <span class="at">breaks=</span> <span class="fu">pretty_breaks</span>()) <span class="sc">+</span></span>
+<span id="cb2-31"><a href="pca.html#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">legend_title =</span> <span class="st">&quot;Type of values&quot;</span>)<span class="sc">+</span></span>
+<span id="cb2-32"><a href="pca.html#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#69b3a2&quot;</span>, <span class="st">&quot;#85C1E9&quot;</span>, <span class="st">&quot;#F5B041&quot;</span>))<span class="sc">+</span></span>
+<span id="cb2-33"><a href="pca.html#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> PA_allData<span class="sc">$</span>Retained, <span class="at">linetype =</span> <span class="st">&#39;dashed&#39;</span>, <span class="at">color =</span> <span class="st">&quot;#566573&quot;</span>)<span class="sc">+</span></span>
+<span id="cb2-34"><a href="pca.html#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_text(aes(x=10, label=&quot;Retain 5 components&quot;, y=40), position = position_dodge(width=0.9), colour=&quot;#566573&quot;, angle=90, size=2)+</span></span>
+<span id="cb2-35"><a href="pca.html#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title=</span><span class="st">&quot;Iteration type&quot;</span>))<span class="sc">+</span></span>
+<span id="cb2-36"><a href="pca.html#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-37"><a href="pca.html#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span>
+<span id="cb2-38"><a href="pca.html#cb2-38" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="pca.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PA_graph</span>(data_PA)</span></code></pre></div>
+<pre><code>## 
+## Using eigendecomposition of correlation matrix.
+## Computing: 10%  20%  30%  40%  50%  60%  70%  80%  90%  100%</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
             </section>

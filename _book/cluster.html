@@ -24,7 +24,7 @@
 <meta name="author" content="Yihui Xie" />
 
 
-<meta name="date" content="2022-03-01" />
+<meta name="date" content="2022-03-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,19 +167,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="network.html"><a href="network.html"><i class="fa fa-check"></i><b>4</b> Network Analysis</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="network.html"><a href="network.html#personality-data"><i class="fa fa-check"></i><b>4.1</b> Personality data</a></li>
+<li class="chapter" data-level="4.1" data-path="network.html"><a href="network.html#community-detection"><i class="fa fa-check"></i><b>4.1</b> Community detection</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="network.html"><a href="network.html#personality-data"><i class="fa fa-check"></i><b>4.1.1</b> Personality data</a></li>
+</ul></li>
 <li class="chapter" data-level="4.2" data-path="network.html"><a href="network.html#values-data"><i class="fa fa-check"></i><b>4.2</b> Values data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>5</b> Principal Component analysis</a>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="pca.html"><a href="pca.html#data-preparation-1"><i class="fa fa-check"></i><b>5.1</b> Data Preparation</a></li>
-<li class="chapter" data-level="5.2" data-path="pca.html"><a href="pca.html#parallel-analysis-pa"><i class="fa fa-check"></i><b>5.2</b> Parallel analysis (PA)</a></li>
-<li class="chapter" data-level="5.3" data-path="pca.html"><a href="pca.html#bayesian-parallel-analysis"><i class="fa fa-check"></i><b>5.3</b> Bayesian Parallel Analysis</a>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>6</b> Principal Component analysis</a>
 <ul>
-<li class="chapter" data-level="5.3.1" data-path="pca.html"><a href="pca.html#personality-data-1"><i class="fa fa-check"></i><b>5.3.1</b> Personality data</a></li>
+<li class="chapter" data-level="6.1" data-path="pca.html"><a href="pca.html#data-preparation-1"><i class="fa fa-check"></i><b>6.1</b> Data Preparation</a></li>
+<li class="chapter" data-level="6.2" data-path="pca.html"><a href="pca.html#parallel-analysis-pa"><i class="fa fa-check"></i><b>6.2</b> Parallel analysis (PA)</a></li>
+<li class="chapter" data-level="6.3" data-path="pca.html"><a href="pca.html#bayesian-parallel-analysis"><i class="fa fa-check"></i><b>6.3</b> Bayesian Parallel Analysis</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="pca.html"><a href="pca.html#personality-data-1"><i class="fa fa-check"></i><b>6.3.1</b> Personality data</a></li>
+<li class="chapter" data-level="6.3.2" data-path="pca.html"><a href="pca.html#values-data-1"><i class="fa fa-check"></i><b>6.3.2</b> Values data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -251,24 +261,25 @@ It computes average silhoutte of observations for varying <em>k</em> values. the
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="cluster.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(val_sub, kmeans, <span class="at">method =</span> <span class="st">&quot;gap_stat&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <ul>
-<li><strong>Sum of squares </strong>: This method relies on minimizing the within cluster variance and increasing between cluster variance.</li>
+<li><strong>Sum of square </strong>: This method relies on minimizing the within cluster variance and increasing between cluster variance.</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="cluster.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to run this algorithm on </span></span>
-<span id="cb8-2"><a href="cluster.html#cb8-2" aria-hidden="true" tabindex="-1"></a>pull_vals <span class="ot">&lt;-</span>  <span class="cf">function</span>(n_center){</span>
-<span id="cb8-3"><a href="cluster.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-4"><a href="cluster.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  n_center <span class="ot">&lt;-</span> {{n_center}}</span>
-<span id="cb8-5"><a href="cluster.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  withinness <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">kmeans</span>(val_sub, <span class="at">center =</span> {{n_center}})<span class="sc">$</span>withinss)</span>
-<span id="cb8-6"><a href="cluster.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  betweenness <span class="ot">&lt;-</span>  <span class="fu">kmeans</span>(val_sub, <span class="at">center =</span> {{n_center}})<span class="sc">$</span>betweenss</span>
-<span id="cb8-7"><a href="cluster.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-8"><a href="cluster.html#cb8-8" aria-hidden="true" tabindex="-1"></a>   l <span class="ot">=</span> <span class="fu">list</span>(n_center, withinness, betweenness) </span>
-<span id="cb8-9"><a href="cluster.html#cb8-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">names</span>(l) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;n_center&quot;</span>, <span class="st">&quot;withinness&quot;</span>, <span class="st">&quot;betweenness&quot;</span>)</span>
-<span id="cb8-10"><a href="cluster.html#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(l)</span>
-<span id="cb8-11"><a href="cluster.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-12"><a href="cluster.html#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="cluster.html#cb8-13" aria-hidden="true" tabindex="-1"></a>ssc <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>, pull_vals)</span>
-<span id="cb8-14"><a href="cluster.html#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="cluster.html#cb8-15" aria-hidden="true" tabindex="-1"></a>plot_ssc <span class="ot">&lt;-</span> ssc <span class="sc">%&gt;%</span></span>
-<span id="cb8-16"><a href="cluster.html#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(., <span class="at">key =</span> <span class="st">&quot;measurement&quot;</span>, <span class="at">value =</span> value, <span class="sc">-</span>n_center) </span></code></pre></div>
+<span id="cb8-2"><a href="cluster.html#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="cluster.html#cb8-3" aria-hidden="true" tabindex="-1"></a>pull_vals <span class="ot">&lt;-</span>  <span class="cf">function</span>(n_center){</span>
+<span id="cb8-4"><a href="cluster.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-5"><a href="cluster.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  n_center <span class="ot">&lt;-</span> {{n_center}}</span>
+<span id="cb8-6"><a href="cluster.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  withinness <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">kmeans</span>(val_sub, <span class="at">center =</span> {{n_center}})<span class="sc">$</span>withinss)</span>
+<span id="cb8-7"><a href="cluster.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  betweenness <span class="ot">&lt;-</span>  <span class="fu">kmeans</span>(val_sub, <span class="at">center =</span> {{n_center}})<span class="sc">$</span>betweenss</span>
+<span id="cb8-8"><a href="cluster.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-9"><a href="cluster.html#cb8-9" aria-hidden="true" tabindex="-1"></a>   l <span class="ot">=</span> <span class="fu">list</span>(n_center, withinness, betweenness) </span>
+<span id="cb8-10"><a href="cluster.html#cb8-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">names</span>(l) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;n_center&quot;</span>, <span class="st">&quot;withinness&quot;</span>, <span class="st">&quot;betweenness&quot;</span>)</span>
+<span id="cb8-11"><a href="cluster.html#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(l)</span>
+<span id="cb8-12"><a href="cluster.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-13"><a href="cluster.html#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="cluster.html#cb8-14" aria-hidden="true" tabindex="-1"></a>ssc <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>, pull_vals)</span>
+<span id="cb8-15"><a href="cluster.html#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="cluster.html#cb8-16" aria-hidden="true" tabindex="-1"></a>plot_ssc <span class="ot">&lt;-</span> ssc <span class="sc">%&gt;%</span></span>
+<span id="cb8-17"><a href="cluster.html#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(., <span class="at">key =</span> <span class="st">&quot;measurement&quot;</span>, <span class="at">value =</span> value, <span class="sc">-</span>n_center) </span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="cluster.html#cb9-1" aria-hidden="true" tabindex="-1"></a>plot_ssc<span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="cluster.html#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n_center, <span class="at">y=</span><span class="fu">log10</span>(value), <span class="at">fill =</span> measurement)) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="cluster.html#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">alpha =</span> .<span class="dv">8</span>) <span class="sc">+</span>     </span>
@@ -299,18 +310,23 @@ The <code>NbClust</code> package in R contains up to 30 indices (for example, Ha
 <span id="cb11-5"><a href="cluster.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># factoextra::fviz_nbclust(res.nbclust) + </span></span>
 <span id="cb11-6"><a href="cluster.html#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    ggtitle(&quot;NbClust&#39;s optimal number of clusters&quot;) + theme_minimal()</span></span>
 <span id="cb11-7"><a href="cluster.html#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="cluster.html#cb11-8" aria-hidden="true" tabindex="-1"></a>res.nbclust_15 <span class="ot">&lt;-</span> <span class="fu">NbClust</span>(val_sub, <span class="at">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">min.nc =</span> <span class="dv">2</span>, <span class="at">max.nc =</span> <span class="dv">15</span>,<span class="at">method =</span> <span class="st">&quot;complete&quot;</span>, <span class="at">index =</span><span class="st">&quot;all&quot;</span>)</span>
+<span id="cb11-8"><a href="cluster.html#cb11-8" aria-hidden="true" tabindex="-1"></a>res.nbclust_15 <span class="ot">&lt;-</span> <span class="fu">NbClust</span>(data, <span class="at">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">min.nc =</span> <span class="dv">2</span>, <span class="at">max.nc =</span> <span class="dv">15</span>,<span class="at">method =</span> <span class="st">&quot;complete&quot;</span>, <span class="at">index =</span><span class="st">&quot;all&quot;</span>)</span>
 <span id="cb11-9"><a href="cluster.html#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="cluster.html#cb11-10" aria-hidden="true" tabindex="-1"></a>factoextra<span class="sc">::</span><span class="fu">fviz_nbclust</span>(res.nbclust_15) <span class="sc">+</span> </span>
-<span id="cb11-11"><a href="cluster.html#cb11-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggtitle</span>(<span class="st">&quot;NbClust&#39;s optimal number of clusters&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb11-12"><a href="cluster.html#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="cluster.html#cb11-13" aria-hidden="true" tabindex="-1"></a>res.nbclust_15<span class="sc">$</span>Best.nc <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> KL<span class="sc">:</span>SDbw,  <span class="at">names_to =</span> <span class="st">&quot;index&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>) <span class="sc">%&gt;%</span> <span class="fu">count</span>(value) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-14"><a href="cluster.html#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(value), <span class="at">y =</span> n))<span class="sc">+</span></span>
-<span id="cb11-15"><a href="cluster.html#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;#F08080&quot;</span>, <span class="at">alpha =</span> .<span class="dv">8</span>)<span class="sc">+</span></span>
-<span id="cb11-16"><a href="cluster.html#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb11-17"><a href="cluster.html#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;NbClust&#39;s optimal number of clusters&quot;</span>, </span>
-<span id="cb11-18"><a href="cluster.html#cb11-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Number of clusters k&quot;</span>,</span>
-<span id="cb11-19"><a href="cluster.html#cb11-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frequency among all indices&quot;</span>)</span></code></pre></div>
+<span id="cb11-10"><a href="cluster.html#cb11-10" aria-hidden="true" tabindex="-1"></a>factoextra<span class="sc">::</span><span class="fu">fviz_nbclust</span>(res.nbclust) <span class="sc">+</span> </span>
+<span id="cb11-11"><a href="cluster.html#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="cluster.html#cb11-12" aria-hidden="true" tabindex="-1"></a>res.nbclust_15 <span class="ot">&lt;-</span> <span class="fu">NbClust</span>(val_sub, <span class="at">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">min.nc =</span> <span class="dv">2</span>, <span class="at">max.nc =</span> <span class="dv">15</span>,<span class="at">method =</span> <span class="st">&quot;complete&quot;</span>, <span class="at">index =</span><span class="st">&quot;all&quot;</span>)</span>
+<span id="cb11-13"><a href="cluster.html#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="cluster.html#cb11-14" aria-hidden="true" tabindex="-1"></a>factoextra<span class="sc">::</span><span class="fu">fviz_nbclust</span>(res.nbclust_15) <span class="sc">+</span> </span>
+<span id="cb11-15"><a href="cluster.html#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="cluster.html#cb11-16" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggtitle</span>(<span class="st">&quot;NbClust&#39;s optimal number of clusters&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb11-17"><a href="cluster.html#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="cluster.html#cb11-18" aria-hidden="true" tabindex="-1"></a>res.nbclust_15<span class="sc">$</span>Best.nc <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> KL<span class="sc">:</span>SDbw,  <span class="at">names_to =</span> <span class="st">&quot;index&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>) <span class="sc">%&gt;%</span> <span class="fu">count</span>(value) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-19"><a href="cluster.html#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(value), <span class="at">y =</span> n))<span class="sc">+</span></span>
+<span id="cb11-20"><a href="cluster.html#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;#F08080&quot;</span>, <span class="at">alpha =</span> .<span class="dv">8</span>)<span class="sc">+</span></span>
+<span id="cb11-21"><a href="cluster.html#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-22"><a href="cluster.html#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;NbClust&#39;s optimal number of clusters&quot;</span>, </span>
+<span id="cb11-23"><a href="cluster.html#cb11-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Number of clusters k&quot;</span>,</span>
+<span id="cb11-24"><a href="cluster.html#cb11-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frequency among all indices&quot;</span>)</span></code></pre></div>
 <ul>
 <li><strong>Hierarchical clustering</strong>
 We will set the distance method to <code>euclidean</code>. The linkage method we will be using here is the <code>average</code> linkage method.</li>

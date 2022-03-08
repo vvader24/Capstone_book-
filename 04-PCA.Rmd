@@ -102,6 +102,7 @@ source("B-PA_Code.r")
 ```
 
 ### Personality data 
+
 ```{r eval=FALSE}
 library(matrixcalc)
 #Personality data 
@@ -117,7 +118,7 @@ bfi %>%
 ```
 
 ### Values data
-```{r}
+```{r eval = FALSE}
 set.seed(453)
 samp = 45
 data_val %>% 

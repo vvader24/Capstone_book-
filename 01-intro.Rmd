@@ -148,8 +148,8 @@ data_val <- data_raw %>%
 Here is a the same data transposed, where rows are variables and columns are participants. 
 ```{r warning=FALSE}
 #Transpose data 
-data_val_t <- data %>% 
-  mutate(ind = paste0("p", 1:nrow(data))) %>% 
+data_val_t <- data_val %>% 
+  mutate(ind = paste0("p", 1:nrow(data_val))) %>% 
    dplyr::select(ind, everything(), -country) %>%
   t %>% as.data.frame %>% janitor::row_to_names(1) %>% 
   mutate_all(funs(as.numeric(as.character(.))))
@@ -164,7 +164,7 @@ Let's take a look at the personality data set from the `psych` package. This dat
  *  C1:C5 - items measuring _Conscientiousness_
  *  E1:E5 - items measuring _Extraversion_
  *  N1:N5 - items measuring _Neuroticism_
- * O1:O5 - items measuring _Openness to experience_
+ *  O1:O5 - items measuring _Openness to experience_
 
 ```{r}
 library(psych)

@@ -54,12 +54,8 @@ One of the important questions across dimension reduction techniques involves ho
 - **Method WSS**: The within cluster dispersion of data, also know as the _error measure_, is likely to drop more prominently after some clustering value. This creates a "elbow" like visual on the plot which is utilized to indicate the optimal number of clusters to model the data. 
 
 ```{r}
-<<<<<<< Updated upstream:02-Cluster-Analysis.Rmd
-fviz_nbclust(data, kmeans, method = "wss", k.max = 50, nboot = 200) + theme_minimal() + ggtitle("Method: WSS [Elbow method] ")+ geom_vline(xintercept = 5, linetype = 2)
-
-=======
 fviz_nbclust(val_sub, kmeans, method = "wss", k.max = 50, nboot = 200) + theme_minimal() + ggtitle("Method: WSS [Elbow method] ")+ geom_vline(xintercept = 5, linetype = 2)
->>>>>>> Stashed changes:02-cluster.Rmd
+
 ```
 
 - **Method: Silhoutte**: This method determines the appropriateness of a data point in a cluster. In other words, it computes how similar an observation is to a given cluster as compared to neighboring clusters. 
@@ -73,15 +69,12 @@ fviz_nbclust(val_sub, kmeans, method = "silhouette")+ theme_minimal() + ggtitle(
 fviz_nbclust(val_sub, kmeans, method = "gap_stat")
 ```
 
-<<<<<<< Updated upstream:02-Cluster-Analysis.Rmd
-- **Sum of square **: This method relies on minimizing the within cluster variance and increasing between cluster variance. 
-```{r}
-=======
 
-- **Sum of squares **: This method relies on minimizing the within cluster variance and increasing between cluster variance. 
+- **Sum of square **: This method relies on minimizing the within cluster variance and increasing between cluster variance. 
+
 ```{r}
 #Function to run this algorithm on 
->>>>>>> Stashed changes:02-cluster.Rmd
+
 pull_vals <-  function(n_center){
   
   n_center <- {{n_center}}
@@ -123,7 +116,7 @@ plot(d_clust)
 ```
 
 ```{r include=FALSE}
-knitr::include_graphics("images/BIC_latest.png")
+knitr::include_graphics("images/BIC.png")
 ```
 
 - **Method: Average of 30 indices **
@@ -136,15 +129,14 @@ library(NbClust)
 # factoextra::fviz_nbclust(res.nbclust) + 
 #    ggtitle("NbClust's optimal number of clusters") + theme_minimal()
 
-<<<<<<< Updated upstream:02-Cluster-Analysis.Rmd
 res.nbclust_15 <- NbClust(data, distance = "euclidean", min.nc = 2, max.nc = 15,method = "complete", index ="all")
 
 factoextra::fviz_nbclust(res.nbclust) + 
-=======
+
 res.nbclust_15 <- NbClust(val_sub, distance = "euclidean", min.nc = 2, max.nc = 15,method = "complete", index ="all")
 
 factoextra::fviz_nbclust(res.nbclust_15) + 
->>>>>>> Stashed changes:02-cluster.Rmd
+
    ggtitle("NbClust's optimal number of clusters") + theme_minimal()
 
 res.nbclust_15$Best.nc %>% as_tibble() %>% pivot_longer(cols = KL:SDbw,  names_to = "index") %>% slice(1:26) %>% count(value) %>% 

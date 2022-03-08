@@ -81,7 +81,7 @@ reshape2::melt(data_bfi_ip) %>%
 
 
 
-# What is Community detection?
+## What is Community detection?
 
 Community detection is the process of identifying similar nodes in a network. In order to find these similar nodes or communities we will be employing different algorithms based on Exploratory Graph analysis (EGA). EGA is a network psychometrics framework that intends to find clusters or communities within network models. The first step is to apply the graphical least absolute shrinkage and selector operator (GLASSO) to an inverse covariance matrix. This results in a Gaussian graphical model (or a network) wherein the edges are partial correlations and the nodes are targets. These targets are variables/features when applied to _latent variable modeling_. These targets would be, in our case, people. The networks would thus involve understanding the communities of participants in the data holding all the other connections constant (since we use partial correlation graphs). 
 \n 
@@ -126,7 +126,7 @@ plot(eb, df)
 ```
 
 ```{r include = FALSE}
-load("~/Desktop/bookdown-demo-main/edge_betweenness_50.RData")
+#load("~/Desktop/bookdown-demo-main/edge_betweenness_50.RData")
 ```
 
 2. _Fast and Greedy_
