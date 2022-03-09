@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Network Analysis | Psychological communities</title>
+  <meta name="description" content="This is a bookdown was created as a fulfilment of the Capstone Project for the Data Science Specialization in the Education and Leadership Department at the University of Oregon." />
+  <meta name="generator" content="bookdown 0.24.4 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Network Analysis | Psychological communities" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a bookdown was created as a fulfilment of the Capstone Project for the Data Science Specialization in the Education and Leadership Department at the University of Oregon." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Network Analysis | Psychological communities" />
+  
+  <meta name="twitter:description" content="This is a bookdown was created as a fulfilment of the Capstone Project for the Data Science Specialization in the Education and Leadership Department at the University of Oregon." />
+  
+
+<meta name="author" content="Vinita Vader" />
+
+
+<meta name="date" content="2022-03-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="cluster.html"/>
+<link rel="next" href="pca.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/core-js-2.5.3/shim.min.js"></script>
+<script src="libs/react-17.0.0/react.min.js"></script>
+<script src="libs/react-17.0.0/react-dom.min.js"></script>
+<script src="libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/reactable-binding-0.2.3/reactable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Psychological communities</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#table-of-contents"><i class="fa fa-check"></i><b>1.1</b> Table of Contents</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#theoretical-background"><i class="fa fa-check"></i><b>2.1</b> Theoretical Background</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#personality-dataset"><i class="fa fa-check"></i><b>2.2</b> Personality Dataset</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#values-dataset"><i class="fa fa-check"></i><b>2.3</b> Values Dataset</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#analysis"><i class="fa fa-check"></i><b>2.4</b> Analysis</a></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#data-orientation"><i class="fa fa-check"></i><b>2.5</b> Data orientation</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="intro.html"><a href="intro.html#values"><i class="fa fa-check"></i><b>2.5.1</b> Values</a></li>
+<li class="chapter" data-level="2.5.2" data-path="intro.html"><a href="intro.html#personality"><i class="fa fa-check"></i><b>2.5.2</b> Personality</a></li>
+<li class="chapter" data-level="2.5.3" data-path="intro.html"><a href="intro.html#note-on-data-transformation"><i class="fa fa-check"></i><b>2.5.3</b> Note on Data transformation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="cluster.html"><a href="cluster.html"><i class="fa fa-check"></i><b>3</b> Cluster analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="cluster.html"><a href="cluster.html#data-preparation"><i class="fa fa-check"></i><b>3.1</b> Data preparation</a></li>
+<li class="chapter" data-level="3.2" data-path="cluster.html"><a href="cluster.html#k-means-clustering"><i class="fa fa-check"></i><b>3.2</b> K-means Clustering</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="cluster.html"><a href="cluster.html#how-to-specify-the-number-of-clusters"><i class="fa fa-check"></i><b>3.2.1</b> How to specify the number of clusters?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="network.html"><a href="network.html"><i class="fa fa-check"></i><b>4</b> Network Analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="network.html"><a href="network.html#community-detection"><i class="fa fa-check"></i><b>4.1</b> Community detection</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="network.html"><a href="network.html#personality-data"><i class="fa fa-check"></i><b>4.1.1</b> Personality data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="network.html"><a href="network.html#what-is-community-detection"><i class="fa fa-check"></i><b>4.2</b> What is Community detection?</a></li>
+<li class="chapter" data-level="4.3" data-path="network.html"><a href="network.html#values-data"><i class="fa fa-check"></i><b>4.3</b> Values data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>5</b> Principal Component analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="pca.html"><a href="pca.html#data-preparation-1"><i class="fa fa-check"></i><b>5.1</b> Data Preparation</a></li>
+<li class="chapter" data-level="5.2" data-path="pca.html"><a href="pca.html#parallel-analysis-pa"><i class="fa fa-check"></i><b>5.2</b> Parallel analysis (PA)</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="personality-data-1.html"><a href="personality-data-1.html"><i class="fa fa-check"></i><b>6</b> Personality data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="personality-data-1.html"><a href="personality-data-1.html#bayesian-parallel-analysis"><i class="fa fa-check"></i><b>6.1</b> Bayesian Parallel Analysis</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="personality-data-1.html"><a href="personality-data-1.html#personality-data-2"><i class="fa fa-check"></i><b>6.1.1</b> Personality data</a></li>
+<li class="chapter" data-level="6.1.2" data-path="personality-data-1.html"><a href="personality-data-1.html#values-data-1"><i class="fa fa-check"></i><b>6.1.2</b> Values data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Psychological communities</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="network" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Network Analysis</h1>
+<p>One way of conceptualizing meaningful cultural groupings could involve using the idea of networks consisting of nodes and edges. A common way of representing graphs in social network analysis involves representing nodes as people where th edges indicate some mathematical relation between the nodes. As a thought experiment one could think of these edges as psychological distances between people. The valence (positive or negative) of these edges could indicate similarity (or dissimilarity) in the thought processes of people. The weights of these edges (indicated by the thickness of the edges in the graph) could indicate the magnitude or strength of the similarity (or dissimilarity) in the thought processes of people. Once we are able to conceptualize the edges as thinking patterns, we need a way to find meaningful clusters or communities in the graph that will indicate groups that are similar to each other in their ways of thinking. Identification of such groups will involve algorithms that seek to find commonalities in the nodes and group them according to other similar nodes. This process in network analysis can be defined as community detection.</p>
+<div id="community-detection" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Community detection</h2>
+<p>The conceptual understanding of communities in the real world involves a level of consensus or agreement between members of the same community. For the purpose of demonstration we will be modeling psychological distances as personality variables and as Emancipative values.
+
+The community detection algorithms allow for mathematically modeling this idea of identifying clusters or communities in a network of participants which could be potential proxies of culture relevant groups in the data.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="network.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<span id="cb25-2"><a href="network.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb25-3"><a href="network.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code></pre></div>
+<div id="personality-data" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Personality data</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="network.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">229</span>)</span>
+<span id="cb26-2"><a href="network.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#222 gave a sd = 0</span></span>
+<span id="cb26-3"><a href="network.html#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="network.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb26-5"><a href="network.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Raw data </span></span>
+<span id="cb26-6"><a href="network.html#cb26-6" aria-hidden="true" tabindex="-1"></a>data_bfi <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span> </span>
+<span id="cb26-7"><a href="network.html#cb26-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>gender, <span class="sc">-</span>education, <span class="sc">-</span>age) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-8"><a href="network.html#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-9"><a href="network.html#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">200</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-10"><a href="network.html#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rowwise() %&gt;% </span></span>
+<span id="cb26-11"><a href="network.html#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(A = sum(c(A1, A2, A3, A4,A5)),</span></span>
+<span id="cb26-12"><a href="network.html#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#        C = sum(c(C1, C2, C3, C4,C5)),</span></span>
+<span id="cb26-13"><a href="network.html#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#        N = sum(c(N1, N2, N3, N4, N5)),</span></span>
+<span id="cb26-14"><a href="network.html#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#        O = sum(c(O1, O2, O3, O4, O5)),</span></span>
+<span id="cb26-15"><a href="network.html#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#        E = sum(c(E1, E2, E3, E4, E5))) %&gt;% </span></span>
+<span id="cb26-16"><a href="network.html#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dplyr::select(A, C, N, O, E) %&gt;% </span></span>
+<span id="cb26-17"><a href="network.html#cb26-17" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span> </span>
+<span id="cb26-18"><a href="network.html#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-19"><a href="network.html#cb26-19" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-20"><a href="network.html#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(<span class="fu">funs</span>(stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(., <span class="st">&#39;v&#39;</span>, <span class="st">&#39;p&#39;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb26-21"><a href="network.html#cb26-21" aria-hidden="true" tabindex="-1"></a>  cor</span>
+<span id="cb26-22"><a href="network.html#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="network.html#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Ipsatized data</span></span>
+<span id="cb26-24"><a href="network.html#cb26-24" aria-hidden="true" tabindex="-1"></a>data_bfi_ip <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span> </span>
+<span id="cb26-25"><a href="network.html#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>gender, <span class="sc">-</span>education, <span class="sc">-</span>age) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-26"><a href="network.html#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-27"><a href="network.html#cb26-27" aria-hidden="true" tabindex="-1"></a>  multicon<span class="sc">::</span><span class="fu">ipsatize</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-28"><a href="network.html#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">200</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-29"><a href="network.html#cb26-29" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span> </span>
+<span id="cb26-30"><a href="network.html#cb26-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-31"><a href="network.html#cb26-31" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb26-32"><a href="network.html#cb26-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(<span class="fu">funs</span>(stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(., <span class="st">&#39;v&#39;</span>, <span class="st">&#39;p&#39;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb26-33"><a href="network.html#cb26-33" aria-hidden="true" tabindex="-1"></a>  cor</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="network.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the correlations - raw</span></span>
+<span id="cb27-2"><a href="network.html#cb27-2" aria-hidden="true" tabindex="-1"></a>reshape2<span class="sc">::</span><span class="fu">melt</span>(data_bfi) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="network.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="network.html#cb27-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_density</span>(<span class="at">fill=</span><span class="st">&quot;#69b3a2&quot;</span>, <span class="at">color=</span><span class="st">&quot;#e9ecef&quot;</span>, <span class="at">alpha=</span><span class="fl">0.8</span>)<span class="sc">+</span></span>
+<span id="cb27-5"><a href="network.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of correlations - Raw data&quot;</span>,</span>
+<span id="cb27-6"><a href="network.html#cb27-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Range of correlation values&quot;</span>)<span class="sc">+</span></span>
+<span id="cb27-7"><a href="network.html#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ipsum</span>() <span class="sc">+</span></span>
+<span id="cb27-8"><a href="network.html#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="network.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the correlations - ipsatized</span></span>
+<span id="cb28-2"><a href="network.html#cb28-2" aria-hidden="true" tabindex="-1"></a>reshape2<span class="sc">::</span><span class="fu">melt</span>(data_bfi_ip) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="network.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="network.html#cb28-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_density</span>(<span class="at">fill=</span><span class="st">&quot;#69b3a2&quot;</span>, <span class="at">color=</span><span class="st">&quot;#e9ecef&quot;</span>, <span class="at">alpha=</span><span class="fl">0.8</span>)<span class="sc">+</span></span>
+<span id="cb28-5"><a href="network.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of correlations - Ipsatized data&quot;</span>,</span>
+<span id="cb28-6"><a href="network.html#cb28-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Range of correlation values&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-7"><a href="network.html#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ipsum</span>() <span class="sc">+</span></span>
+<span id="cb28-8"><a href="network.html#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+</div>
+<div id="what-is-community-detection" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> What is Community detection?</h2>
+<p>Community detection is the process of identifying similar nodes in a network. In order to find these similar nodes or communities we will be employing different algorithms based on Exploratory Graph analysis (EGA). EGA is a network psychometrics framework that intends to find clusters or communities within network models. The first step is to apply the graphical least absolute shrinkage and selector operator (GLASSO) to an inverse covariance matrix. This results in a Gaussian graphical model (or a network) wherein the edges are partial correlations and the nodes are targets. These targets are variables/features when applied to <em>latent variable modeling</em>. These targets would be, in our case, people. The networks would thus involve understanding the communities of participants in the data holding all the other connections constant (since we use partial correlation graphs).
+
+After estimating this graph we can further apply community detection algorithms to find the right connections between participants. The underlying framework for every community detection (CD) algorithm is slightly different from each other. We will be exploring the CD algorithms in the <code>igraph</code> package in R.
+
+Before we move on the algorithms it is important to understand one concept that will potentially affect the generation of these communities. The concept of <em>modularity</em>(Newman, 2006) is crucial to understanding any CD algorthim. Modularity in effect is the degree to which communities in a network have larger number of connections within the community in contrast to lesser connections outside the community.</p>
+<p><span class="math display">\[
+Q = 1/2w \Sigma_{ij}(w_{ij}- \frac{w_iw_j}{2w}) \delta(c_i,c_j)
+\]</span>
+<span class="math inline">\(w_{ij}\)</span> = edge strength (e.g., correlation) between nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>
+<span class="math inline">\(w_i\)</span> and <span class="math inline">\(w_j\)</span> = node strength (e.g., correlation) for nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>
+<span class="math inline">\(w\)</span> = summation of all edge weights in the network
+<span class="math inline">\(c_i\)</span>, <span class="math inline">\(c_j\)</span> = community that node <span class="math inline">\(i\)</span> and node <span class="math inline">\(j\)</span> belong to
+<span class="math inline">\(\delta\)</span> takes values 1 (when nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> belong to the same community) and 0 (when nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> belong to different communities)
+is 1 if the nodes belong to the same community (i.e., <span class="math inline">\(c_i = c_j\)</span> ) and 0 if otherwise.</p>
+<ol style="list-style-type: decimal">
+<li><em>Edge Betweenness</em>
+This algorithm is based on the measure of betweenness cetrality in network graphs. The edge betweenness scores are computed based on how many shortest paths pass through a given edge in the network. The edge betweenness CD algorithm relies on the fact that edges with high betweenness are likely to connect multiple groups as these will the only ways for different groups/communities in the network to stay connected. The edge with the highest betweenness value is removed, followed by recomputing of betweenness for the remaining edges. The new highest betweenness value is identified and removed followed by another round of recomputation. An optimal threshold is established using modularity.</li>
+</ol>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="network.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edge betweenness </span></span>
+<span id="cb29-2"><a href="network.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">98</span>)</span>
+<span id="cb29-3"><a href="network.html#cb29-3" aria-hidden="true" tabindex="-1"></a>data_bfi_eb <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span> </span>
+<span id="cb29-4"><a href="network.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>gender, <span class="sc">-</span>education, <span class="sc">-</span>age) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-5"><a href="network.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="network.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">70</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-7"><a href="network.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  t <span class="sc">%&gt;%</span> </span>
+<span id="cb29-8"><a href="network.html#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb29-9"><a href="network.html#cb29-9" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb29-10"><a href="network.html#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(<span class="fu">funs</span>(stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(., <span class="st">&#39;v&#39;</span>, <span class="st">&#39;p&#39;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-11"><a href="network.html#cb29-11" aria-hidden="true" tabindex="-1"></a>  cor</span>
+<span id="cb29-12"><a href="network.html#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="network.html#cb29-13" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.adjacency</span>(data_bfi_eb , <span class="at">mode=</span><span class="st">&quot;upper&quot;</span>, <span class="at">weighted=</span><span class="cn">TRUE</span>, <span class="at">diag=</span><span class="cn">FALSE</span>)</span>
+<span id="cb29-14"><a href="network.html#cb29-14" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">get.edgelist</span>(g)</span>
+<span id="cb29-15"><a href="network.html#cb29-15" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(e,<span class="fu">E</span>(g)<span class="sc">$</span>weight))</span>
+<span id="cb29-16"><a href="network.html#cb29-16" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span>  <span class="fu">graph_from_data_frame</span>(df, <span class="at">directed =</span> F)</span>
+<span id="cb29-17"><a href="network.html#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="network.html#cb29-18" aria-hidden="true" tabindex="-1"></a>eb <span class="ot">&lt;-</span> <span class="fu">edge.betweenness.community</span>(df)</span>
+<span id="cb29-19"><a href="network.html#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eb, df)</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><em>Fast and Greedy</em>
+This algorithm begins with considering every node as one community and uses heirarchical clustering to build communities. Each node is placed in a community in a way that maximizes modularity. The communities are collapsed into different groups once the modularity threshold has been reached (i.e. no significant improvement in modularity is observed). Due to the high speed of this algorithm it is often a preferred approach for quick approximations of communities in the data.</li>
+</ol>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="network.html#cb30-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.adjacency</span>(data_bfi, <span class="at">mode=</span><span class="st">&quot;upper&quot;</span>, <span class="at">weighted=</span><span class="cn">TRUE</span>, <span class="at">diag=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-2"><a href="network.html#cb30-2" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">get.edgelist</span>(g)</span>
+<span id="cb30-3"><a href="network.html#cb30-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(e,<span class="fu">E</span>(g)<span class="sc">$</span>weight))</span>
+<span id="cb30-4"><a href="network.html#cb30-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span>  <span class="fu">graph_from_data_frame</span>(df, <span class="at">directed =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="network.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fast and greedy algorithm </span></span>
+<span id="cb31-2"><a href="network.html#cb31-2" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">fastgreedy.community</span>(df); fg</span></code></pre></div>
+<pre><code>## IGRAPH clustering fast greedy, groups: 2, mod: 5.8e-17
+## + groups:
+##   $`1`
+##     [1] &quot;p1&quot;   &quot;p2&quot;   &quot;p3&quot;   &quot;p4&quot;   &quot;p5&quot;   &quot;p6&quot;  
+##     [7] &quot;p7&quot;   &quot;p8&quot;   &quot;p9&quot;   &quot;p10&quot;  &quot;p11&quot;  &quot;p12&quot; 
+##    [13] &quot;p13&quot;  &quot;p14&quot;  &quot;p15&quot;  &quot;p16&quot;  &quot;p17&quot;  &quot;p18&quot; 
+##    [19] &quot;p19&quot;  &quot;p20&quot;  &quot;p21&quot;  &quot;p22&quot;  &quot;p23&quot;  &quot;p24&quot; 
+##    [25] &quot;p25&quot;  &quot;p26&quot;  &quot;p27&quot;  &quot;p28&quot;  &quot;p29&quot;  &quot;p30&quot; 
+##    [31] &quot;p31&quot;  &quot;p32&quot;  &quot;p33&quot;  &quot;p34&quot;  &quot;p35&quot;  &quot;p36&quot; 
+##    [37] &quot;p37&quot;  &quot;p38&quot;  &quot;p39&quot;  &quot;p40&quot;  &quot;p41&quot;  &quot;p42&quot; 
+##    [43] &quot;p43&quot;  &quot;p44&quot;  &quot;p45&quot;  &quot;p46&quot;  &quot;p47&quot;  &quot;p48&quot; 
+##    [49] &quot;p49&quot;  &quot;p50&quot;  &quot;p51&quot;  &quot;p52&quot;  &quot;p53&quot;  &quot;p54&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="network.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(fg)</span></span>
+<span id="cb33-2"><a href="network.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(fg)</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><em>Louvian</em>
+This is similar to the greedy algorithm described above. This algorithm also uses heirarchical clustering. It intends to identify heirarchical structures wherein it swaps nodes between communities to assess improvement in modularity. Once the modularity reaches a point where no improvement is observes, the communities are modeled as latent nodes and edge weights with other nodes within and outside the community are computed. This provides a heirarchical or a multi-level structure to the communities identified. The results of Lovian and Fast Greedy algorithms are therefore, likely to be similar.</li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="network.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Louvain</span></span>
+<span id="cb34-2"><a href="network.html#cb34-2" aria-hidden="true" tabindex="-1"></a>lc <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(df);lc</span></code></pre></div>
+<pre><code>## IGRAPH clustering multi level, groups: 1, mod: 0
+## + groups:
+##   $`1`
+##     [1] &quot;p1&quot;   &quot;p2&quot;   &quot;p3&quot;   &quot;p4&quot;   &quot;p5&quot;   &quot;p6&quot;  
+##     [7] &quot;p7&quot;   &quot;p8&quot;   &quot;p9&quot;   &quot;p10&quot;  &quot;p11&quot;  &quot;p12&quot; 
+##    [13] &quot;p13&quot;  &quot;p14&quot;  &quot;p15&quot;  &quot;p16&quot;  &quot;p17&quot;  &quot;p18&quot; 
+##    [19] &quot;p19&quot;  &quot;p20&quot;  &quot;p21&quot;  &quot;p22&quot;  &quot;p23&quot;  &quot;p24&quot; 
+##    [25] &quot;p25&quot;  &quot;p26&quot;  &quot;p27&quot;  &quot;p28&quot;  &quot;p29&quot;  &quot;p30&quot; 
+##    [31] &quot;p31&quot;  &quot;p32&quot;  &quot;p33&quot;  &quot;p34&quot;  &quot;p35&quot;  &quot;p36&quot; 
+##    [37] &quot;p37&quot;  &quot;p38&quot;  &quot;p39&quot;  &quot;p40&quot;  &quot;p41&quot;  &quot;p42&quot; 
+##    [43] &quot;p43&quot;  &quot;p44&quot;  &quot;p45&quot;  &quot;p46&quot;  &quot;p47&quot;  &quot;p48&quot; 
+##    [49] &quot;p49&quot;  &quot;p50&quot;  &quot;p51&quot;  &quot;p52&quot;  &quot;p53&quot;  &quot;p54&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="network.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(lc)</span></span>
+<span id="cb36-2"><a href="network.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(lc)</span></span>
+<span id="cb36-3"><a href="network.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(lc, g)</span></span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li><em>Walktrap</em>
+This algorithm starts with computing a transition matrix <span class="math inline">\(\mathbf{T_{ij}}\)</span> in which each matrix element <span class="math inline">\(p_{ij}\)</span> is the probability of one node <span class="math inline">\(i\)</span> traversing to another node <span class="math inline">\(j\)</span>.</li>
+</ol>
+<p><span class="math display">\[\mathbf{T_{ij}} = \left[\begin{array}
+{rrr}
+p_{11} &amp; p_{12} &amp; p_{13} \\
+p_{21} &amp; p_{22} &amp; p_{23}  \\
+p_{31} &amp; p_{32} &amp; p_{33} 
+\end{array}\right]\]</span></p>
+<p>In the matrix above, <span class="math inline">\(p_{32}\)</span> is th probability that node 3 traverses to node 2 as determined by the node strengths of the two nodes.
+
+Ward’s agglomorative clustering approach is employed wherein nodes start off as a cluster of their own and then merge with adjacent clusters. The merging takes place in a way where the sum of squared distances between clusters are reduced.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="network.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Random Walk </span></span>
+<span id="cb37-2"><a href="network.html#cb37-2" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">walktrap.community</span>(df); wk</span></code></pre></div>
+<pre><code>## IGRAPH clustering walktrap, groups: 200, mod: 0
+## + groups:
+##   $`1`
+##   [1] &quot;p1&quot;
+##   
+##   $`2`
+##   [1] &quot;p2&quot;
+##   
+##   $`3`
+##   [1] &quot;p3&quot;
+##   
+##   $`4`
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="network.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(wk)</span></span>
+<span id="cb39-2"><a href="network.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(wk)</span></span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li><em>Infomap</em>
+This is similar to the greedy walk algorithm except it converts the random walk information into a binary coding system. The partition of data into networks is carried out in a way that maximizes the information of random walks.</li>
+</ol>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="network.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Infomap</span></span>
+<span id="cb40-2"><a href="network.html#cb40-2" aria-hidden="true" tabindex="-1"></a>imc <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(df);imc</span></code></pre></div>
+<pre><code>## IGRAPH clustering infomap, groups: 1, mod: 0
+## + groups:
+##   $`1`
+##     [1] &quot;p1&quot;   &quot;p2&quot;   &quot;p3&quot;   &quot;p4&quot;   &quot;p5&quot;   &quot;p6&quot;  
+##     [7] &quot;p7&quot;   &quot;p8&quot;   &quot;p9&quot;   &quot;p10&quot;  &quot;p11&quot;  &quot;p12&quot; 
+##    [13] &quot;p13&quot;  &quot;p14&quot;  &quot;p15&quot;  &quot;p16&quot;  &quot;p17&quot;  &quot;p18&quot; 
+##    [19] &quot;p19&quot;  &quot;p20&quot;  &quot;p21&quot;  &quot;p22&quot;  &quot;p23&quot;  &quot;p24&quot; 
+##    [25] &quot;p25&quot;  &quot;p26&quot;  &quot;p27&quot;  &quot;p28&quot;  &quot;p29&quot;  &quot;p30&quot; 
+##    [31] &quot;p31&quot;  &quot;p32&quot;  &quot;p33&quot;  &quot;p34&quot;  &quot;p35&quot;  &quot;p36&quot; 
+##    [37] &quot;p37&quot;  &quot;p38&quot;  &quot;p39&quot;  &quot;p40&quot;  &quot;p41&quot;  &quot;p42&quot; 
+##    [43] &quot;p43&quot;  &quot;p44&quot;  &quot;p45&quot;  &quot;p46&quot;  &quot;p47&quot;  &quot;p48&quot; 
+##    [49] &quot;p49&quot;  &quot;p50&quot;  &quot;p51&quot;  &quot;p52&quot;  &quot;p53&quot;  &quot;p54&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="network.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(imc)</span></span>
+<span id="cb42-2"><a href="network.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#communities(imc)</span></span>
+<span id="cb42-3"><a href="network.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(fg, g)</span></span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><em>Eigen vector</em>
+This involves computing an eigenvector for the modularity matrix and splitting the network into communities in order to improve modularity. A stopping condition is specified to avoid tight communities to be formed. Due to eigenvector computations, this algorithm does not work well with degerate graphs.</li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="network.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eigen vector community</span></span>
+<span id="cb43-2"><a href="network.html#cb43-2" aria-hidden="true" tabindex="-1"></a>eg <span class="ot">&lt;-</span> <span class="fu">leading.eigenvector.community</span>(df);eg </span></code></pre></div>
+<pre><code>## IGRAPH clustering leading eigenvector, groups: 1, mod: 0
+## + groups:
+##   $`1`
+##     [1] &quot;p1&quot;   &quot;p2&quot;   &quot;p3&quot;   &quot;p4&quot;   &quot;p5&quot;   &quot;p6&quot;  
+##     [7] &quot;p7&quot;   &quot;p8&quot;   &quot;p9&quot;   &quot;p10&quot;  &quot;p11&quot;  &quot;p12&quot; 
+##    [13] &quot;p13&quot;  &quot;p14&quot;  &quot;p15&quot;  &quot;p16&quot;  &quot;p17&quot;  &quot;p18&quot; 
+##    [19] &quot;p19&quot;  &quot;p20&quot;  &quot;p21&quot;  &quot;p22&quot;  &quot;p23&quot;  &quot;p24&quot; 
+##    [25] &quot;p25&quot;  &quot;p26&quot;  &quot;p27&quot;  &quot;p28&quot;  &quot;p29&quot;  &quot;p30&quot; 
+##    [31] &quot;p31&quot;  &quot;p32&quot;  &quot;p33&quot;  &quot;p34&quot;  &quot;p35&quot;  &quot;p36&quot; 
+##    [37] &quot;p37&quot;  &quot;p38&quot;  &quot;p39&quot;  &quot;p40&quot;  &quot;p41&quot;  &quot;p42&quot; 
+##    [43] &quot;p43&quot;  &quot;p44&quot;  &quot;p45&quot;  &quot;p46&quot;  &quot;p47&quot;  &quot;p48&quot; 
+##    [49] &quot;p49&quot;  &quot;p50&quot;  &quot;p51&quot;  &quot;p52&quot;  &quot;p53&quot;  &quot;p54&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+</div>
+<div id="values-data" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Values data</h2>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="network.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">133</span>)</span>
+<span id="cb45-2"><a href="network.html#cb45-2" aria-hidden="true" tabindex="-1"></a>val_data <span class="ot">&lt;-</span> data_val <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="network.html#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-4"><a href="network.html#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample_n</span>(<span class="dv">50</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-5"><a href="network.html#cb45-5" aria-hidden="true" tabindex="-1"></a>    ungroup <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>country) <span class="sc">%&gt;%</span></span>
+<span id="cb45-6"><a href="network.html#cb45-6" aria-hidden="true" tabindex="-1"></a>    t <span class="sc">%&gt;%</span> cor</span>
+<span id="cb45-7"><a href="network.html#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="network.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot the correlations </span></span>
+<span id="cb45-9"><a href="network.html#cb45-9" aria-hidden="true" tabindex="-1"></a>reshape2<span class="sc">::</span><span class="fu">melt</span>(val_data) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-10"><a href="network.html#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span></span>
+<span id="cb45-11"><a href="network.html#cb45-11" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_density</span>(<span class="at">fill=</span><span class="st">&quot;#69b3a2&quot;</span>, <span class="at">color=</span><span class="st">&quot;#e9ecef&quot;</span>, <span class="at">alpha=</span><span class="fl">0.8</span>)<span class="sc">+</span></span>
+<span id="cb45-12"><a href="network.html#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of correlations - Values Raw data&quot;</span>,</span>
+<span id="cb45-13"><a href="network.html#cb45-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Range of correlation values&quot;</span>)<span class="sc">+</span></span>
+<span id="cb45-14"><a href="network.html#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_ipsum</span>() <span class="sc">+</span></span>
+<span id="cb45-15"><a href="network.html#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="network.html#cb46-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.adjacency</span>(val_data, <span class="at">mode=</span><span class="st">&quot;upper&quot;</span>, <span class="at">weighted=</span><span class="cn">TRUE</span>, <span class="at">diag=</span><span class="cn">FALSE</span>)</span>
+<span id="cb46-2"><a href="network.html#cb46-2" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">get.edgelist</span>(g)</span>
+<span id="cb46-3"><a href="network.html#cb46-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(e,<span class="fu">E</span>(g)<span class="sc">$</span>weight))</span>
+<span id="cb46-4"><a href="network.html#cb46-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span>  <span class="fu">graph_from_data_frame</span>(df, <span class="at">directed =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="network.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edge betweenness </span></span>
+<span id="cb47-2"><a href="network.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co">#eb &lt;- edge.betweenness.community(df);eb</span></span>
+<span id="cb47-3"><a href="network.html#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(eb, df)</span></span>
+<span id="cb47-4"><a href="network.html#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="network.html#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Louvain</span></span>
+<span id="cb47-6"><a href="network.html#cb47-6" aria-hidden="true" tabindex="-1"></a>lc <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(df);lc</span></code></pre></div>
+<pre><code>## IGRAPH clustering multi level, groups: 1, mod: 0
+## + groups:
+##   $`1`
+##     [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;7&quot;  
+##     [8] &quot;8&quot;   &quot;9&quot;   &quot;10&quot;  &quot;11&quot;  &quot;12&quot;  &quot;13&quot;  &quot;14&quot; 
+##    [15] &quot;15&quot;  &quot;16&quot;  &quot;17&quot;  &quot;18&quot;  &quot;19&quot;  &quot;20&quot;  &quot;21&quot; 
+##    [22] &quot;22&quot;  &quot;23&quot;  &quot;24&quot;  &quot;25&quot;  &quot;26&quot;  &quot;27&quot;  &quot;28&quot; 
+##    [29] &quot;29&quot;  &quot;30&quot;  &quot;31&quot;  &quot;32&quot;  &quot;33&quot;  &quot;34&quot;  &quot;35&quot; 
+##    [36] &quot;36&quot;  &quot;37&quot;  &quot;38&quot;  &quot;39&quot;  &quot;40&quot;  &quot;41&quot;  &quot;42&quot; 
+##    [43] &quot;43&quot;  &quot;44&quot;  &quot;45&quot;  &quot;46&quot;  &quot;47&quot;  &quot;48&quot;  &quot;49&quot; 
+##    [50] &quot;50&quot;  &quot;51&quot;  &quot;52&quot;  &quot;53&quot;  &quot;54&quot;  &quot;55&quot;  &quot;56&quot; 
+##    [57] &quot;57&quot;  &quot;58&quot;  &quot;59&quot;  &quot;60&quot;  &quot;61&quot;  &quot;62&quot;  &quot;63&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="network.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(lc)</span></span>
+<span id="cb49-2"><a href="network.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(lc)</span></span>
+<span id="cb49-3"><a href="network.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(lc, g)</span></span>
+<span id="cb49-4"><a href="network.html#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="network.html#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Infomap</span></span>
+<span id="cb49-6"><a href="network.html#cb49-6" aria-hidden="true" tabindex="-1"></a>imc <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(df);imc</span></code></pre></div>
+<pre><code>## IGRAPH clustering infomap, groups: 1, mod: 0
+## + groups:
+##   $`1`
+##     [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;7&quot;  
+##     [8] &quot;8&quot;   &quot;9&quot;   &quot;10&quot;  &quot;11&quot;  &quot;12&quot;  &quot;13&quot;  &quot;14&quot; 
+##    [15] &quot;15&quot;  &quot;16&quot;  &quot;17&quot;  &quot;18&quot;  &quot;19&quot;  &quot;20&quot;  &quot;21&quot; 
+##    [22] &quot;22&quot;  &quot;23&quot;  &quot;24&quot;  &quot;25&quot;  &quot;26&quot;  &quot;27&quot;  &quot;28&quot; 
+##    [29] &quot;29&quot;  &quot;30&quot;  &quot;31&quot;  &quot;32&quot;  &quot;33&quot;  &quot;34&quot;  &quot;35&quot; 
+##    [36] &quot;36&quot;  &quot;37&quot;  &quot;38&quot;  &quot;39&quot;  &quot;40&quot;  &quot;41&quot;  &quot;42&quot; 
+##    [43] &quot;43&quot;  &quot;44&quot;  &quot;45&quot;  &quot;46&quot;  &quot;47&quot;  &quot;48&quot;  &quot;49&quot; 
+##    [50] &quot;50&quot;  &quot;51&quot;  &quot;52&quot;  &quot;53&quot;  &quot;54&quot;  &quot;55&quot;  &quot;56&quot; 
+##    [57] &quot;57&quot;  &quot;58&quot;  &quot;59&quot;  &quot;60&quot;  &quot;61&quot;  &quot;62&quot;  &quot;63&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="network.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(imc)</span></span>
+<span id="cb51-2"><a href="network.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(imc)</span></span>
+<span id="cb51-3"><a href="network.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(imc, g)</span></span>
+<span id="cb51-4"><a href="network.html#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="network.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Fast and greedy algorithm </span></span>
+<span id="cb51-6"><a href="network.html#cb51-6" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">fastgreedy.community</span>(df); fg</span></code></pre></div>
+<pre><code>## IGRAPH clustering fast greedy, groups: 2, mod: 1.9e-17
+## + groups:
+##   $`1`
+##     [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;7&quot;  
+##     [8] &quot;8&quot;   &quot;9&quot;   &quot;10&quot;  &quot;11&quot;  &quot;12&quot;  &quot;13&quot;  &quot;14&quot; 
+##    [15] &quot;15&quot;  &quot;16&quot;  &quot;17&quot;  &quot;18&quot;  &quot;19&quot;  &quot;20&quot;  &quot;21&quot; 
+##    [22] &quot;22&quot;  &quot;23&quot;  &quot;24&quot;  &quot;25&quot;  &quot;26&quot;  &quot;27&quot;  &quot;28&quot; 
+##    [29] &quot;29&quot;  &quot;30&quot;  &quot;31&quot;  &quot;32&quot;  &quot;33&quot;  &quot;34&quot;  &quot;35&quot; 
+##    [36] &quot;36&quot;  &quot;37&quot;  &quot;38&quot;  &quot;39&quot;  &quot;40&quot;  &quot;41&quot;  &quot;42&quot; 
+##    [43] &quot;43&quot;  &quot;44&quot;  &quot;45&quot;  &quot;46&quot;  &quot;47&quot;  &quot;48&quot;  &quot;49&quot; 
+##    [50] &quot;50&quot;  &quot;51&quot;  &quot;52&quot;  &quot;53&quot;  &quot;54&quot;  &quot;55&quot;  &quot;56&quot; 
+##    [57] &quot;57&quot;  &quot;58&quot;  &quot;59&quot;  &quot;60&quot;  &quot;61&quot;  &quot;62&quot;  &quot;63&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="network.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(fg)</span></span>
+<span id="cb53-2"><a href="network.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(fg)</span></span>
+<span id="cb53-3"><a href="network.html#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="network.html#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Eigen vector community</span></span>
+<span id="cb53-5"><a href="network.html#cb53-5" aria-hidden="true" tabindex="-1"></a>eg <span class="ot">&lt;-</span> <span class="fu">leading.eigenvector.community</span>(df);eg </span></code></pre></div>
+<pre><code>## IGRAPH clustering leading eigenvector, groups: 1, mod: 0
+## + groups:
+##   $`1`
+##     [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;7&quot;  
+##     [8] &quot;8&quot;   &quot;9&quot;   &quot;10&quot;  &quot;11&quot;  &quot;12&quot;  &quot;13&quot;  &quot;14&quot; 
+##    [15] &quot;15&quot;  &quot;16&quot;  &quot;17&quot;  &quot;18&quot;  &quot;19&quot;  &quot;20&quot;  &quot;21&quot; 
+##    [22] &quot;22&quot;  &quot;23&quot;  &quot;24&quot;  &quot;25&quot;  &quot;26&quot;  &quot;27&quot;  &quot;28&quot; 
+##    [29] &quot;29&quot;  &quot;30&quot;  &quot;31&quot;  &quot;32&quot;  &quot;33&quot;  &quot;34&quot;  &quot;35&quot; 
+##    [36] &quot;36&quot;  &quot;37&quot;  &quot;38&quot;  &quot;39&quot;  &quot;40&quot;  &quot;41&quot;  &quot;42&quot; 
+##    [43] &quot;43&quot;  &quot;44&quot;  &quot;45&quot;  &quot;46&quot;  &quot;47&quot;  &quot;48&quot;  &quot;49&quot; 
+##    [50] &quot;50&quot;  &quot;51&quot;  &quot;52&quot;  &quot;53&quot;  &quot;54&quot;  &quot;55&quot;  &quot;56&quot; 
+##    [57] &quot;57&quot;  &quot;58&quot;  &quot;59&quot;  &quot;60&quot;  &quot;61&quot;  &quot;62&quot;  &quot;63&quot; 
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="network.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(eg)</span></span>
+<span id="cb55-2"><a href="network.html#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="network.html#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Random Walk </span></span>
+<span id="cb55-4"><a href="network.html#cb55-4" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">walktrap.community</span>(df); wk</span></code></pre></div>
+<pre><code>## IGRAPH clustering walktrap, groups: 150, mod: 0
+## + groups:
+##   $`1`
+##   [1] &quot;1&quot;
+##   
+##   $`2`
+##   [1] &quot;2&quot;
+##   
+##   $`3`
+##   [1] &quot;3&quot;
+##   
+##   $`4`
+##   + ... omitted several groups/vertices</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="network.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># membership(wk)</span></span>
+<span id="cb57-2"><a href="network.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># communities(wk)</span></span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="cluster.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pca.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-network.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

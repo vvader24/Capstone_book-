@@ -150,14 +150,16 @@ res.nbclust_15$Best.nc %>% as_tibble() %>% pivot_longer(cols = KL:SDbw,  names_t
 ```
 
 - **Hierarchical clustering** 
-We will set the distance method to `euclidean`. The linkage method we will be using here is the `average` linkage method. 
+We will set the distance method to `euclidean`. The linkage method we will be using here is the `average` linkage method. This algorithm will need a higher computing power given the large data and number of computations. 
 ```{r eval=FALSE}
+hc_data <- val_sub
 dist_mat <- dist(val_sub, method = 'euclidean')
 hclust_avg <- hclust(dist_mat, method = 'average')
 #plot(hclust_avg) - aborts session, data is too big 
 ```
 
 - **Cluster tree**
+This algorithm is helpful in considering various custering choices. The visual analysis of the clustering tree indicates how sample sizes in clusters change as the number of clusters increases. The node size corresponds to the sample size in a specific cluster. One way of looking at this method is to come up with candidate models for then identifying the most robust model. 
 ```{r}
 library(clustree)
 tmp <- NULL
@@ -183,5 +185,9 @@ overlay_list <- clustree_overlay(df_subset, prefix = "k", x_value = "PC1",
 overlay_list$x_side
 overlay_list$y_side
 ```
+
+## Conclusion
+
+Cluster analysis is going to be an important consideration for determining the most optimal number of clusters for the given research question. I am particularly inclined to use divisive hierarchical clustering or a related variant of the same. 
 
 

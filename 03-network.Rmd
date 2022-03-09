@@ -18,7 +18,7 @@ library(psych)
 ```
 
 
-### Personality data 
+## Personality data 
 
 ```{r warning=FALSE}
 set.seed(229)
@@ -93,12 +93,12 @@ Before we move on the algorithms it is important to understand one concept that 
 $$
 Q = 1/2w \Sigma_{ij}(w_{ij}- \frac{w_iw_j}{2w}) \delta(c_i,c_j)
 $$
-$$w_{ij}$$ = edge strength (e.g., correlation) between nodes $$i$$ and $$j$$
-$$w_i$$ and $$w_j$$ = node strength (e.g., correlation) for nodes $$i$$ and $$j$$
-$$w$$ = summation of all edge weights in the network
-$$c_i$$, $$c_j$$ = community that node $$i$$ and node $$j$$ belong to
-$$\delta$$ takes values 1 (when nodes $$i$$ and $$j$$ belong to the same community) and 0 (when nodes $$i$$ and $$j$$  belong to different communities)
-is 1 if the nodes belong to the same community (i.e., $$c_i = c_j$$ ) and 0 if otherwise.
+$w_{ij}$ = edge strength (e.g., correlation) between nodes $i$ and $j$
+$w_i$ and $w_j$ = node strength (e.g., correlation) for nodes $i$ and $j$
+$w$ = summation of all edge weights in the network
+$c_i$, $c_j$ = community that node $i$ and node $j$ belong to
+$\delta$ takes values 1 (when nodes $i$ and $j$ belong to the same community) and 0 (when nodes $i$ and $j$  belong to different communities)
+is 1 if the nodes belong to the same community (i.e., $c_i = c_j$ ) and 0 if otherwise.
 
 
 1. _Edge Betweenness_ 
@@ -162,7 +162,7 @@ lc <- cluster_louvain(df);lc
 
 
 4. _Walktrap_
-This algorithm starts with computing a transition matrix $$\mathbf{T_{ij}}$$ in which each matrix element $$p_{ij}$$ is the probability of one node $$i$$ traversing to another node $$j$$. 
+This algorithm starts with computing a transition matrix $\mathbf{T_{ij}}$ in which each matrix element $p_{ij}$ is the probability of one node $i$ traversing to another node $j$. 
 
 $$\mathbf{T_{ij}} = \left[\begin{array}
 {rrr}
@@ -172,7 +172,7 @@ p_{31} & p_{32} & p_{33}
 \end{array}\right]$$
 
 
-In the matrix above, $$p_{32}$$ is th probability that node 3 traverses to node 2 as determined by the node strengths of the two nodes. 
+In the matrix above, $p_{32}$ is th probability that node 3 traverses to node 2 as determined by the node strengths of the two nodes. 
 \n
 Ward's agglomorative clustering approach is employed wherein nodes start off as a cluster of their own and then merge with adjacent clusters. The merging takes place in a way where the sum of squared distances between clusters are reduced. 
 
@@ -204,6 +204,8 @@ eg <- leading.eigenvector.community(df);eg
 
 
 ## Values data 
+\n
+In this section we will apply all the previously learned algorithms to the Values data. 
 ```{r}
 set.seed(133)
 val_data <- data_val %>%
@@ -260,7 +262,8 @@ wk <- walktrap.community(df); wk
 ```
 
 
-
+## Conclusion
+Community detection can effectively determine the number of groups in a data, however its important to remember that the centrality measures such as edge betweenness values are not comparable across simulations for a given number of nodes being considered. However, one could consider every node's probablity of being in a specific group. The optimal number of group can be determined by considering the enitre dataset. 
 
 
 

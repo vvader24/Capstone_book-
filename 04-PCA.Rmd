@@ -101,6 +101,8 @@ This is a relatively new method to compute Parallel analysis. We will be using a
 source("B-PA_Code.r") 
 ```
 
+One of the important considerations for this approach is understanding how this algorithm sets the initial number of dimensions to test. This approach requires a very high computation power. Following code can be used to apply this function to our data. The other thing to remember is that the matrices are often positive definite across multiple iterations and this problem needs to be addressed. 
+
 ### Personality data 
 
 ```{r eval=FALSE}
@@ -140,7 +142,8 @@ data_val %>%
   bayes.pa 
 ```
 
-
+## Conclusion
+I would like to explore more recent developments in parallel analysis wherein they have used a 95% confidence interval for every possible number of dimensions in the data. There needs to be a procedure for determining the most optimum number of dimensions for explaining the variance in the data. Perhaps I could set a specific amount of variance and a certain fraction of the total number of variables are criterion. More exploration is needed. 
 
 
 ```{r eval=FALSE, include=FALSE}
