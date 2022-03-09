@@ -1,3 +1,7 @@
+/*fonts*/
+@import url('https://fonts.google.com/specimen/Bellefair?thickness=3&width=4#standard-styles')
+/*Declare variables*/
+
 p.caption {
   color: #777;
   margin-top: 10px;
