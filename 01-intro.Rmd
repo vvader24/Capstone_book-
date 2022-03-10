@@ -171,39 +171,83 @@ Let's take a look at the personality data set from the `psych` package. This dat
 library(psych)
 
 data_pty <- bfi %>%
-   dplyr::select(A1:O5)
+   dplyr::select(A1:O5)#%>% nrow()
 
 data_pty %>% 
   reactable(
     defaultColDef = colDef(
-    cell = function(value) format(value, nsmall = 1),
-    align = "center",
+     align = "center",
     minWidth = 70,
     headerStyle = list(background = "#f7f7f8")
     ),
 
-  bordered = TRUE,
-  highlight = TRUE
+  highlight = TRUE,
+  
+  theme = reactableTheme(
+    borderColor = "#d6d1e0",
+    stripedColor = "#aa95ad",
+    highlightColor = "#e9e1f0",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "90%")
   )
+  )
+
+
 ```
 
+There will be instances wherein we will only consider a subset of our larger sample in this analysis. This will require a closer look at the distribution of scores for each participant. A visual assessment of response styles can be carried out looking at the boxplots and density lines for each participant. Here is a demonstration of how to do this using `reactable`.  
+
+```{r}
+library(sparkline)
+
+df = data_pty %>% 
+  drop_na() %>% #nrow() %>% 
+  sample_n(200) %>% 
+ mutate(id = paste0("p", 1:nrow(.))) %>%
+  mutate(id = as.factor(id)) %>%  #glimpse()
+  group_by(id) %>% 
+   mutate (all_scores = list(c(A1, A2, A3, A4, A5, C1, C2, C3, C4, C5, E1, E2, E3, E4, E5, N1, N2, N3, N4, N5, O1, O2, O3, O4, O5))) %>% 
+select(id, all_scores) %>%
+  mutate(boxplot = NA, sparkline = NA)
+  
+reactable(df, columns = list(
+  all_scores = colDef(cell = function(values) {
+    sparkline(values, type = "bar", chartRangeMin = 1, chartRangeMax = 6)
+  }),
+  boxplot = colDef(cell = function(value, index) {
+    sparkline(df$all_scores[[index]], type = "box")
+  }),
+  sparkline = colDef(cell = function(value, index) {
+    sparkline(df$all_scores[[index]])
+  })
+))
+```
 
 ```{r}
  data_pty_t <- bfi %>%
    dplyr::select(A1:O5) %>% 
-   t %>% data.frame %>% janitor::clean_names()  
+   t %>% data.frame %>% janitor::clean_names() %>%
+ rename_with(~stringr::str_replace(.x, "x", "p_")) 
+
+
   
 data_pty_t %>% 
   reactable(
-        defaultColDef = colDef(
-    cell = function(value) format(value, nsmall = 1),
-    align = "center",
-    minWidth = 70,
+    defaultColDef = colDef(
+     align = "center",
+    minWidth = 90,
     headerStyle = list(background = "#f7f7f8")
     ),
 
-  bordered = TRUE,
-  highlight = TRUE
+  highlight = TRUE,
+  
+  theme = reactableTheme(
+    borderColor = "#d6d1e0",
+    stripedColor = "#aa95ad",
+    highlightColor = "#e9e1f0",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "90%")
+  )
   ) 
 ```
 

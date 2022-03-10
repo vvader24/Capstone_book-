@@ -12,7 +12,7 @@ github-repo: vvader24/Capstone_book-
 description: "This is a bookdown was created as a fulfilment of the Capstone Project for the Data Science Specialization in the Education and Leadership Department at the University of Oregon."
 ---
 
-# Preface
+# Preface {-}
 
 This bookdown was created to explore the idea of dimensionaliy reduction as applied to the research question - how can one develop meaningful (culture-relevant groups) in a given population. It consists of an initial assessment of all the dimensionality reduction algorithms for understanding culture relevant groupings dependent on personality and values
 \n
@@ -21,7 +21,7 @@ Building this book has been an effort of love and perseverance towards the bigge
 \n
 I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Light for the insightful discussions on culture and its quantifiable properties. I am grateful to Daniel Anderson for his generous help with the coding and development of this book. I have immense gratitude for Daniel for his impeccable teaching skills and never ending patience. I would also like to thank Elizabeth McNeily for her objective feedback on my crazy ideas. 
 
-## Table of Contents
+## Table of Contents {-}
 
 | Chapter Name| Description |
 |:---|:---|
