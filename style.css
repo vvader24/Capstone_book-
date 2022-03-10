@@ -51,6 +51,33 @@
 }
 
 
+/*sidebar*/
+.summary {
+	background-color: var(--main-bg-babyblue);
+	border-right: 2px solid var(--highlight-salmon);
+}
+
+.book .book-summary ul.summary li.active > a {
+	color: var(--highlight-darker-salmon);
+}
+
+.book .book-summary ul.summary li ul {
+	background-color: var(--main-bg-babyblue);
+}
+
+/*Change font color to white when active*/
+.book .book-summary ul.summary li.chapter li.active > a {
+	background-color: var(--highlight-mauve);
+	color: #fff;
+}
+
+/*Change hover color, bold font on hover*/
+.book .book-summary ul.summary li:not(:active):hover > a {
+	color: var(--highlight-salmon);
+	font-weight: bold;
+}
+
+
 /*Tables*/
 table {
 	border: 4px solid var(--highlight-darker-green);

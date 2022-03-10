@@ -25,8 +25,8 @@ I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Li
 
 | Chapter Name| Description |
 |:---|:---|
-| **Introduction ** | In this chapter I introduce the research question and its importance. I introduce the Personality and Values dataset that will be used for demonstration purposes in the book. I explain the organization of the book.  |
-| **Cluster analysis** | In this chapter I explore the algorithms that have been used to retain optimum number of clusters. |
-| **Network Analysis** | I propose a network model of culture and an iterative process that can potentially be used for simulating real world conditions for group building.|
-| **Principal Component Analysis** | In this chapter I use PCA, a very common dimension reduction technique, and its application to the research question.|
+| **Introduction ** \@ref(intro) | In this chapter I introduce the research question and its importance. I introduce the Personality and Values dataset that will be used for demonstration purposes in the book. I explain the organization of the book.  |
+| **Cluster analysis** \@ref(cluster) | In this chapter I explore the algorithms that have been used to retain optimum number of clusters. |
+| **Network Analysis** \@ref(network) | I propose a network model of culture and an iterative process that can potentially be used for simulating real world conditions for group building.|
+| **Principal Component Analysis**\@ref(pca)  | In this chapter I use PCA, a very common dimension reduction technique, and its application to the research question.|
 
