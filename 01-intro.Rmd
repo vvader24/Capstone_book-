@@ -108,24 +108,25 @@ Three countries considered to be least similar on aspects such as language, soci
 data_raw %>% 
   count(C_COW_ALPHA) %>% 
   arrange(desc(n)) %>% 
+  rename("Country" = C_COW_ALPHA ) %>% 
   
-  reactable(
+   reactable(
     defaultColDef = colDef(
-    cell = function(value) format(value, nsmall = 1),
-    align = "center",
-    minWidth = 70,
+     align = "center",
+    minWidth = 90,
     headerStyle = list(background = "#f7f7f8")
     ),
+
+  highlight = TRUE,
   
-    
-    columns = list(
-    C_COW_ALPHA = colDef(name = "Country Code"),
-    n = colDef(name = "Sample size (n)")
-    ),
-    
-  bordered = TRUE,
-  highlight = TRUE
+  theme = reactableTheme(
+    borderColor = "#d6d1e0",
+    stripedColor = "#aa95ad",
+    highlightColor = "#e9e1f0",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "90%")
   )
+  ) 
 ```
 
 \n
@@ -199,6 +200,7 @@ There will be instances wherein we will only consider a subset of our larger sam
 
 ```{r}
 library(sparkline)
+
 
 df = data_pty %>% 
   drop_na() %>% #nrow() %>% 

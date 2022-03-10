@@ -1,5 +1,5 @@
 --- 
-title: "Quantifing Cultural groups"
+title: "Quantifying Cultural groups"
 author: "Vinita Vader"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site

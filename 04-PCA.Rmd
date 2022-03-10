@@ -76,7 +76,7 @@ PA_df %>%
 PA_graph(data_PA)
 ```
 
-# Personality data 
+## Personality data 
 One of the important things to recognize is that I need to remove rows that have zero variance. These participants have responded to the questionnaire with only one consistent option and this could cause issues with the correlation matrix estimation. This could also lead to issues is eigendecomposition of the matrix.
 
 

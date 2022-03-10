@@ -108,11 +108,11 @@
   top: 0;
 }
 #TOC .has-sub .has-sub ul li a {
-  background: #0c7fb0;
+  background: #E7F2F8;
   border-bottom: 1px dotted #31b7f1;
 }
 #TOC .has-sub .has-sub ul li a:hover {
-  background: #0a6d98;
+  background: #B8C6E3;
 }
 #TOC ul ul li.last > a,
 #TOC ul ul li:last-child > a,
