@@ -24,3 +24,6 @@ personality-data-1
 bayesian-parallel-analysis
 personality-data-2
 values-data-1
+conclusion
+conclusion-1
+conclusion-2

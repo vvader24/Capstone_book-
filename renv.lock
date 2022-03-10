@@ -69,6 +69,20 @@
       "Hash": "0e59129db205112e3963904db67fd0dc",
       "Requirements": []
     },
+    "MCMCpack": {
+      "Package": "MCMCpack",
+      "Version": "1.6-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f15f1ac5294d540c22b245c1d56601a2",
+      "Requirements": [
+        "MASS",
+        "coda",
+        "lattice",
+        "mcmc",
+        "quantreg"
+      ]
+    },
     "Matrix": {
       "Package": "Matrix",
       "Version": "1.3-4",
@@ -176,6 +190,23 @@
       "Repository": "CRAN",
       "Hash": "4f57884290cc75ab22f4af9e9d4ca862",
       "Requirements": []
+    },
+    "arrow": {
+      "Package": "arrow",
+      "Version": "7.0.0.20220210",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c5595cb1bfc3d960a77adcc7cf71947f",
+      "Requirements": [
+        "R6",
+        "assertthat",
+        "bit64",
+        "cpp11",
+        "purrr",
+        "rlang",
+        "tidyselect",
+        "vctrs"
+      ]
     },
     "askpass": {
       "Package": "askpass",
@@ -425,6 +456,16 @@
         "rlang",
         "tidygraph",
         "viridis"
+      ]
+    },
+    "coda": {
+      "Package": "coda",
+      "Version": "0.19-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "24b6d006b8b2343876cf230687546932",
+      "Requirements": [
+        "lattice"
       ]
     },
     "codetools": {
@@ -1382,6 +1423,14 @@
       "Hash": "b8e6221fc11247b12ab1b055a6f66c27",
       "Requirements": []
     },
+    "mcmc": {
+      "Package": "mcmc",
+      "Version": "0.9-7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "aab79cde1fef3861c9eed1cbc3f931fb",
+      "Requirements": []
+    },
     "mgcv": {
       "Package": "mgcv",
       "Version": "1.8-36",
@@ -2062,6 +2111,17 @@
       "Hash": "dfd843ee98246cf932823acf613b05dd",
       "Requirements": [
         "lattice"
+      ]
+    },
+    "sparkline": {
+      "Package": "sparkline",
+      "Version": "2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "06e5e4017ecb00fd142bada4b380c59a",
+      "Requirements": [
+        "htmltools",
+        "htmlwidgets"
       ]
     },
     "stringi": {
