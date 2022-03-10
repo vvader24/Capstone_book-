@@ -22,29 +22,11 @@ Building this book has been an effort of love and perseverance towards the bigge
 I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Light for the insightful discussions on culture and its quantifiable properties. I am grateful to Daniel Anderson for his generous help with the coding and development of this book. I have immense gratitude for Daniel for his impeccable teaching skills and never ending patience. I would also like to thank Elizabeth McNeily for her objective feedback on my crazy ideas. 
 
 ## Table of Contents
- * Introduction {#intro}
- 
- \n
- In this chapter I introduce the research question and its importance. I introduce the Personality and Values dataset that will be used for demonstration purposes in the book. I explain the organization of the book.  
- 
- * Cluster analysis {#cluster}
- 
- \n
- In this chapter I explore the algorithms that have been used to retain optimum number of clusters. 
- 
- * Network Analysis {#network}
- 
- \n
- I propose a network model of culture and an iterative process that can potentially be used for simulating real world conditions for group building. 
- 
- * Principal Component Analysis {#pca}
- 
- \n
- In this chapter I use PCA, a very common dimension reduction technique, and its application to the research question. 
 
-```{r eval=FALSE, include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
+| Chapter Name| Description |
+|:---|:---|
+| **Introduction ** | In this chapter I introduce the research question and its importance. I introduce the Personality and Values dataset that will be used for demonstration purposes in the book. I explain the organization of the book.  |
+| **Cluster analysis** | In this chapter I explore the algorithms that have been used to retain optimum number of clusters. |
+| **Network Analysis** | I propose a network model of culture and an iterative process that can potentially be used for simulating real world conditions for group building.|
+| **Principal Component Analysis** | In this chapter I use PCA, a very common dimension reduction technique, and its application to the research question.|
+
