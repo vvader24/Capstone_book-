@@ -12,18 +12,13 @@ github-repo: vvader24/Capstone_book-
 description: "This is a bookdown was created as a fulfilment of the Capstone Project for the Data Science Specialization in the Education and Leadership Department at the University of Oregon."
 ---
 
-```{r include=FALSE, out.width='32.8%', fig.show='hold'}
-#knitr::include_graphics("images/culdiff.png")
-knitr::include_url("https://s3.amazonaws.com/marstranslation.aws.bucket/default/0012/10/980ad06867c218c3df92e4d4cc30767105a26b4d.jpeg")
-```
-
-\FloatBarrier
-
 # Preface {-}
 
-This bookdown was created to explore the idea of dimensionaliy reduction as applied to the research question - how can one develop meaningful (culture-relevant groups) in a given population. It consists of an initial assessment of all the dimensionality reduction algorithms for understanding culture relevant groupings dependent on personality and values
+![](https://s3.amazonaws.com/marstranslation.aws.bucket/default/0012/10/980ad06867c218c3df92e4d4cc30767105a26b4d.jpeg)
+
+This book was created to explore the idea of dimensionality reduction as applied to the research question - how can one develop meaningful (culturally-relevant) groups in a given population. It consists of an initial assessment of all the dimensionality reduction algorithms for understanding culture relevant groupings dependent on personality and values
 \n
-Building this book has been an effort of love and perseverance towards the bigger goal of understanding the idea of _Culture_ and if there is a way to quantify it. Much work needs to go into this before one could make conclusive arguments about which algorithm works the best. This book should be viewed as more of a literature review of several high dimensionality algorithms rather than a reference book of any sort. The ideas introduced here are still under development and should be considered with caution.  
+Building this book has been an effort of love and perseverance towards the bigger goal of understanding the idea of _Culture_ and if there is a way to quantify it. Much work needs to go into this before one could make conclusive arguments about which algorithm works  best. This book should be viewed as more of a literature review of several high dimensionality algorithms, rather than a reference book of any sort. The ideas introduced here are still under development and should be considered with caution.  
 
 \n
 I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Light for the insightful discussions on culture and its quantifiable properties. I am grateful to Daniel Anderson for his generous help with the coding and development of this book. I have immense gratitude for Daniel for his impeccable teaching skills and never ending patience. I would also like to thank Elizabeth McNeily for her objective feedback on my crazy ideas. 
@@ -33,8 +28,8 @@ I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Li
 
 | Chapter Name| Description |
 |:---|:---|
-| **Introduction ** \@ref(intro) | In this chapter I introduce the research question and its importance. I introduce the Personality and Values dataset that will be used for demonstration purposes in the book. I explain the organization of the book.  |
+| **Introduction ** \@ref(intro) | I begin by introducing the research question and its importance. I also introduce the Personality and Values dataset that will be used for demonstration purposes in the book. Finally, I discuss the organization of the book.  |
 | **Cluster analysis** \@ref(cluster) | In this chapter I explore the algorithms that have been used to retain optimum number of clusters. |
 | **Network Analysis** \@ref(network) | I propose a network model of culture and an iterative process that can potentially be used for simulating real world conditions for group building.|
-| **Principal Component Analysis**\@ref(pca)  | In this chapter I use PCA, a very common dimension reduction technique, and its application to the research question.|
+| **Principal Component Analysis** \@ref(pca)  | Finally, I use PCA, a very common dimension reduction technique, and its application to the research question.|
 
