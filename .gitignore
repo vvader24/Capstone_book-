@@ -3,3 +3,7 @@
 .RData
 rsconnect
 _bookdown_files
+
+.DS_Store
+
+_book/
