@@ -3,10 +3,6 @@ source("common.R")
 ```
 # Introduction {#intro}
 
-```{r include=FALSE}
-knitr::include_graphics("images/cul_diff.png")
-```
-
 ## Theoretical Background
 Most cross-cultural studies in psychology have a common theme consisting of the difference in levels of a sample statistics based on a sample characteristic feature. This feature is mostly the geographical location where the sample data has been collected. This geographical location is treated as an analogy to the cultural identity of an individual. Let's try understanding this another way. Do the following statements convey the same meaning?
 

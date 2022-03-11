@@ -13,9 +13,11 @@ description: "This is a bookdown was created as a fulfilment of the Capstone Pro
 ---
 
 ```{r include=FALSE, out.width='32.8%', fig.show='hold'}
-knitr::include_graphics('images/cul_diff.png')
+#knitr::include_graphics("images/culdiff.png")
+knitr::include_url("https://s3.amazonaws.com/marstranslation.aws.bucket/default/0012/10/980ad06867c218c3df92e4d4cc30767105a26b4d.jpeg")
 ```
 
+\FloatBarrier
 
 # Preface {-}
 
