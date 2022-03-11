@@ -3,9 +3,9 @@
 
 /*Declare variables*/
 :root {
-   /*color scheme*/
+      /*color scheme*/
   --main-bg-babyblue: #E7F2F8;
-  --highlight-aquamarine: #74BDCB;
+  --highlight-olive: #498275;
   --highlight-salmon: #FFA384;
   --highlight-mauve: #B99095;
 
@@ -30,17 +30,21 @@
 .book .book-body .page-wrapper .page-inner section.normal h1 {
 	margin-top: 0.2em;
 	font-family: var(--font-h1);
-	color: var(--highlight-aquamarine) !important;
+	color: #498275;
 	font-weight: bolder;
 }
 
 /*h2*/
 .book .book-body .page-wrapper .page-inner section.normal h2 {
-	font-family: var(--font-h1);
-	color: var(--highlight-aquamarine);
+    font-family: var(--font-h1);
+    color:#498275
 }
 
-
+/*h3*/
+.book .book-body .page-wrapper .page-inner section.normal h3 {
+    font-family: var(--font-h1);
+    color:#3da68e
+}
 /*inline code*/
 .book .book-body .page-wrapper .page-inner section.normal code {
 	font-family: var(--font-body), monospace;

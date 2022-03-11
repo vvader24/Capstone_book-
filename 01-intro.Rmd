@@ -3,6 +3,10 @@ source("common.R")
 ```
 # Introduction {#intro}
 
+```{r include=FALSE}
+knitr::include_graphics("images/cul_diff.png")
+```
+
 ## Theoretical Background
 Most cross-cultural studies in psychology have a common theme consisting of the difference in levels of a sample statistics based on a sample characteristic feature. This feature is mostly the geographical location where the sample data has been collected. This geographical location is treated as an analogy to the cultural identity of an individual. Let's try understanding this another way. Do the following statements convey the same meaning?
 
@@ -255,5 +259,6 @@ data_pty_t %>%
 
 ### Note on Data transformation
 The future versions of this study will explore the ipsatized version of the data. Ipsatization refers to the process of mean centering the data for every participant. It involves replacing every data point ($x_i$) for a participant ($x$) with the mean deviation of the data point ($x_i - \bar{x}$). The `ipsatize` function from the `multicon` package can be used for this purpose. 
+
 
 
