@@ -14,7 +14,10 @@ set.seed(133)
 n = 200
 val_sub <- data_val %>%
   drop_na() %>% 
-  group_by(country) %>% sample_n(n) %>% ungroup %>% dplyr::select(-country)
+  group_by(country) %>% 
+  sample_n(n) %>% 
+  ungroup() %>% 
+  dplyr::select(-country)
 ```
 
 ```{r message=FALSE}
@@ -29,12 +32,14 @@ library(factoextra) # clustering algorithms & visualization
  
 ```{r}
 val_sub <- val_sub[,-caret::nearZeroVar(val_sub)] #remove columns with near zero variance - we have already removed the columns with near zero variance so we move to the next step. 
-val_sub<- val_sub %>% scale
+val_sub<- val_sub %>% 
+  scale()
 ```
 
 ```{r}
 #Let's take a look at the data 
-df <- val_sub %>% data.frame() 
+df <- val_sub %>% 
+  data.frame() 
 df %>% 
    mutate_if(is.numeric, ~round(., 2)) %>% 
    reactable()
@@ -54,14 +59,29 @@ One of the important questions across dimension reduction techniques involves ho
 - **Method WSS**: The within cluster dispersion of data, also know as the _error measure_, is likely to drop more prominently after some clustering value. This creates a "elbow" like visual on the plot which is utilized to indicate the optimal number of clusters to model the data. 
 
 ```{r}
-fviz_nbclust(val_sub, kmeans, method = "wss", k.max = 50, nboot = 200) + theme_minimal() + ggtitle("Method: WSS [Elbow method] ")+ geom_vline(xintercept = 5, linetype = 2)
+fviz_nbclust(
+  val_sub, 
+  kmeans, 
+  method = "wss", 
+  k.max = 50, 
+  nboot = 200
+  ) + 
+  theme_minimal() + 
+  ggtitle("Method: WSS [Elbow method] ") + 
+  geom_vline(xintercept = 5, linetype = 2)
 
 ```
 
 - **Method: Silhoutte**: This method determines the appropriateness of a data point in a cluster. In other words, it computes how similar an observation is to a given cluster as compared to neighboring clusters. 
 It computes average silhoutte of observations for varying _k_ values. the _k_ configuration is dependent on the values assigned to the observations across clusters, if these values are high the _k_ or the number of clusters is seen as the appropriate value for structuring the data. 
 ```{r}
-fviz_nbclust(val_sub, kmeans, method = "silhouette")+ theme_minimal() + ggtitle("Method: Silhouette")
+fviz_nbclust(
+  val_sub,
+  kmeans,
+  method = "silhouette"
+  ) + 
+  theme_minimal() +
+  ggtitle("Method: Silhouette")
 ```
 
 - **Method: Gap stat**: This method computes pooled within cluster sum of squares and compares it to a null model of a single component. 
@@ -75,7 +95,7 @@ fviz_nbclust(val_sub, kmeans, method = "gap_stat")
 ```{r}
 #Function to run this algorithm on 
 
-pull_vals <-  function(n_center){
+pull_vals <-  function(n_center) {
   
   n_center <- {{n_center}}
   withinness <- mean(kmeans(val_sub, center = {{n_center}})$withinss)
@@ -83,24 +103,24 @@ pull_vals <-  function(n_center){
   
    l = list(n_center, withinness, betweenness) 
    names(l) <- c("n_center", "withinness", "betweenness")
-      return(l)
-  }
+   l
+}
 
 ssc <- map_df(1:40, pull_vals)
 
 plot_ssc <- ssc %>%
-  gather(., key = "measurement", value = value, -n_center) 
+  gather(key = "measurement", value = value, -n_center) 
 ```
 
 ```{r}
-plot_ssc%>% 
-    ggplot(aes(x=n_center, y=log10(value), fill = measurement)) +
+plot_ssc %>% 
+    ggplot(aes(x = n_center, y = log10(value), fill = measurement)) +
        geom_bar(stat = "identity", position = "dodge", alpha = .8) +     
        labs(x = "Number of Clusters", 
             y = "Log10 Total Sum of Squares", 
             title = "Cluster Model Comparison") +
        scale_x_discrete(name = "Number of Clusters", limits = paste0(1:40)) +
-  geom_hline(aes(yintercept = 4.5), linetype = 3, size = .2, alpha = .5)+
+       geom_hline(aes(yintercept = 4.5), linetype = 3, size = .2, alpha = .5)+
        theme_minimal()
 ```
 
@@ -129,9 +149,18 @@ library(NbClust)
 # factoextra::fviz_nbclust(res.nbclust) + 
 #    ggtitle("NbClust's optimal number of clusters") + theme_minimal()
 
-res.nbclust_15 <- NbClust(data, distance = "euclidean", min.nc = 2, max.nc = 15,method = "complete", index ="all")
+res.nbclust_15 <- NbClust(
+  data,
+  distance = "euclidean",
+  min.nc = 2,
+  max.nc = 15,
+  method = "complete",
+  index ="all"
+)
 
-factoextra::fviz_nbclust(res.nbclust) + 
+# the rest of this chunk should be cleaned up too
+
+factoextra::fviz_nbclust(res.nbclust)
 
 res.nbclust_15 <- NbClust(val_sub, distance = "euclidean", min.nc = 2, max.nc = 15,method = "complete", index ="all")
 
@@ -162,8 +191,8 @@ hclust_avg <- hclust(dist_mat, method = 'average')
 This algorithm is helpful in considering various custering choices. The visual analysis of the clustering tree indicates how sample sizes in clusters change as the number of clusters increases. The node size corresponds to the sample size in a specific cluster. One way of looking at this method is to come up with candidate models for then identifying the most robust model. 
 ```{r}
 library(clustree)
-tmp <- NULL
-for (k in 1:11){
+tmp <- rep(NA, 11)
+for (k in seq_along(tmp)){
   tmp[k] <- kmeans(val_sub, k, nstart = 30)
 }
 df <- data.frame(tmp)
@@ -177,6 +206,7 @@ ind.coord <- ind.coord[,1:2]
 df <- bind_cols(as.data.frame(df), as.data.frame(ind.coord))
 clustree(df, prefix = "k")
 
+# The below needs styled
 df_subset <- df %>% select(1:8,12:13)
 clustree_overlay(df_subset, prefix = "k", x_value = "PC1", y_value = "PC2")
 
