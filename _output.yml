@@ -4,10 +4,14 @@ bookdown::gitbook:
     toc:
       before: |
         <li><a href="./">Quantifying Cultural groups</a></li>
-      after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
     download: ["pdf", "epub"]
+    edit:
+      link: https://github.com/vvader24/Capstone_book-/main/%s
+    sharing:
+      github: yes
+      facebook: no
+      twitter: no
+      all: no
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex
