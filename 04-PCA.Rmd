@@ -10,6 +10,10 @@ One of the most important algorithms used in dimensionality reduction is PCA. Th
 
 We will be working with a sample size of 50 from the Values data. This will be utilized for demonstrating the code. The problem of positive definite matrices although has not been completely solved at this point, the demonstrations are quite helpful. 
 ```{r}
+# The below needs to be styled
+# Note the inconsistent assignment operator
+# lack of () on `t` and `cor`
+# no line breaks after `%>%`
 set.seed(133)
 n = 50
 data_PA <- data_val %>%
@@ -18,6 +22,7 @@ data_PA <- data_val %>%
   t %>% 
   cor
 
+# alignment below needs work
 data_PA %>% 
   reshape2::melt(value.name = "cor") %>% 
  ggplot(aes(x=cor)) +
