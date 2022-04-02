@@ -21,7 +21,7 @@ This book was created to explore the idea of dimensionality reduction as applied
 Building this book has been an effort of love and perseverance towards the bigger goal of understanding the idea of _Culture_ and if there is a way to quantify it. Much work needs to go into this before one could make conclusive arguments about which algorithm works  best. This book should be viewed as more of a literature review of several high dimensionality algorithms, rather than a reference book of any sort. The ideas introduced here are still under development and should be considered with caution.  
 
 \n
-I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Light for the insightful discussions on culture and its quantifiable properties. I am grateful to Daniel Anderson for his generous help with the coding and development of this book. I have immense gratitude for Daniel for his impeccable teaching skills and never ending patience. I would also like to thank Elizabeth McNeily for her objective feedback on my crazy ideas. 
+I would like to thank Gerard Saucier, Sanjay Srivastava, Sara Weston and Ryan Light for the insightful discussions on culture and its quantifiable properties. I am grateful to Daniel Anderson for his generous help with the coding and development of this book. I have immense gratitude for Daniel for his impeccable teaching skills and never ending patience. I would also like to thank Elizabeth McNeilly for her objective feedback on my crazy ideas. 
 
 
 ## Table of Contents {-}
